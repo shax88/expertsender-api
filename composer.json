@@ -1,0 +1,20 @@
+{
+    "name": "desher/expertsender-api",
+    "description": "ExpertSender API client",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roman Kuzakov",
+            "email": "roman.kuzakov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "psr-4": {"desher\\expertsender\\": "src/"}
+        }
+    }
+}
