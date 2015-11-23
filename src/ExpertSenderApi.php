@@ -2,8 +2,6 @@
 
 namespace desher\expertsender;
 
-use desher\expertsender\methods;
-
 class ExpertSenderApi
 {
     protected $connection;
@@ -15,18 +13,22 @@ class ExpertSenderApi
     }
 
     /**
-     * @return methods\Subscribers
+     * @return \desher\expertsender\methods\Subscribers
      */
     public function getSubscribers()
     {
         return $this->getApiSection('subscribers');
     }
 
+    /**
+     * @param $name
+     * @return mixed instance of specified section
+     */
     protected function getApiSection($name)
     {
         $className = ucfirst($name);
-        if (!$this->sections[$name]) {
-            $classFullName = 'methods\\' . $className;
+        if (!isset($this->sections[$name])) {
+            $classFullName = 'desher\\expertsender\\methods\\' . $className;
             return $this->sections[$name] = new $classFullName($this->connection);
         }
         return $this->sections[$name];
