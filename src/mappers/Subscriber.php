@@ -7,26 +7,43 @@ class Subscriber
     public $id;
     public $ip;
     public $inBlackList;
+    public $email;
+    public $firstname;
+    public $lastname;
 
     public $properties = [];
     public $lists = [];
 
-    public function __construct($data)
+    /**
+     * @param $email
+     * @param mixed $data
+     */
+    public function __construct($email, $data = [])
     {
-        if (isset($data->Data->Id)) {
-            $this->setId($data->Data->Id);
+        $this->setEmail($email);
+
+        if (isset($data['Id'])) {
+            $this->setId($data['Id']);
         }
-        if (isset($data->Data->Ip)) {
-            $this->setIp($data->Data->Ip);
+        if (isset($data['Ip'])) {
+            $this->setIp($data['Ip']);
         }
-        if (isset($data->Data->BlackList)) {
-            $this->setInBlackList($data->Data->BlackList);
+        if (isset($data['BlackList'])) {
+            $this->setInBlackList($data['BlackList']);
         }
-        if (isset($data->Data->Properties)) {
-            $this->setProperties($data->Data->Properties->Property);
+        if (isset($data['Properties'])) {
+            if ($data['Properties'] instanceof \SimpleXMLElement) {
+                $this->setProperties($data['Properties']->Property);
+            } else {
+                $this->setProperties($data['Properties']);
+            }
         }
-        if (isset($data->Data->StateOnLists)) {
-            $this->setLists($data->Data->StateOnLists->StateOnList);
+        if (isset($data['StateOnLists'])) {
+            if ($data['StateOnLists'] instanceof \SimpleXMLElement) {
+                $this->setLists($data['StateOnLists']->StateOnList);
+            } else {
+                $this->setLists($data['StateOnLists']);
+            }
         }
     }
 
@@ -53,7 +70,7 @@ class Subscriber
     public function setProperties($values)
     {
         foreach ($values as $property) {
-            $this->properties[] = (array) $property;
+            $this->properties[] = new Property((array) $property);
         }
     }
 
@@ -62,5 +79,19 @@ class Subscriber
         foreach ($values as $list) {
             $this->lists[] = (array) $list;
         }
+    }
+
+    public function setEmail($value)
+    {
+        $this->email = $value;
+    }
+
+    public function addProperty($id, $type, $value)
+    {
+        $this->properties[] = new Property([
+            'Id' => $id,
+            'Type' => $type,
+            'Value' => $value
+        ]);
     }
 }

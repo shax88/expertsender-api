@@ -3,6 +3,7 @@
 namespace desher\expertsender;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
 class ExpertSenderApiConnection
@@ -28,7 +29,7 @@ class ExpertSenderApiConnection
     }
 
     /**
-     * GET request to api
+     * GET request
      * @param $method
      * @param array $data
      * @return array
@@ -42,19 +43,35 @@ class ExpertSenderApiConnection
             'http_errors' => false,
         ]);
 
-        return $this->prepareResponse($response);
+        return ['code' => $response->getStatusCode(), 'response' => $this->prepareResponse($response)];
     }
 
-    public function post($method, array $data)
+    /**
+     * POST method
+     * @param $method
+     * @param \SimpleXMLElement $data
+     * @return array
+     */
+    public function post($method, \SimpleXMLElement $data)
     {
-        $data['apiKey'] = $this->key;
+        $request = new Request('POST', $method, ['content-type' => 'text/xml'], $data->asXML());
+        $response = $this->httpClient->send($request, ['http_errors' => false]);
 
-        $response = $this->httpClient->request('POST', $method, [
-            'query' => $data,
-            'http_errors' => false,
-        ]);
+        return ['code' => $response->getStatusCode(), 'response' => $this->prepareResponse($response)];
+    }
 
-        return $this->prepareResponse($response);
+    /**
+     * Add child SimpleXMLElement to parent SimpleXMLElement
+     *
+     * @param \SimpleXMLElement $parent
+     * @param \SimpleXMLElement $child
+     * @return \SimpleXMLElement
+     */
+    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child) {
+        $toDom = dom_import_simplexml($parent);
+        $fromDom = dom_import_simplexml($child);
+        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+        return $parent;
     }
 
     /**
@@ -64,6 +81,21 @@ class ExpertSenderApiConnection
      */
     public function prepareResponse(Response $response)
     {
-        return simplexml_load_string((string) $response->getBody());
+        $responseBody = (string) $response->getBody();
+        if ($responseBody) {
+            return simplexml_load_string($responseBody);
+        }
+        return null;
+    }
+
+    /**
+     * Return default xml object (wrapper) for post and put requests
+     * @return \SimpleXMLElement
+     */
+    public function getDefaultRequestXml()
+    {
+        $xmlObject = new \SimpleXMLElement('<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" />');
+        $xmlObject->addChild('ApiKey', $this->key);
+        return $xmlObject;
     }
 }

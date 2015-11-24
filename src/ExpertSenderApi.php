@@ -21,6 +21,14 @@ class ExpertSenderApi
     }
 
     /**
+     * @return \desher\expertsender\methods\Tables
+     */
+    public function getTables()
+    {
+        return $this->getApiSection('tables');
+    }
+
+    /**
      * @param $name
      * @return mixed instance of specified section
      */

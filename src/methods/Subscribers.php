@@ -19,42 +19,60 @@ class Subscribers extends AbstractMethod
      */
     public function get($email, $option = self::INFO_OPTION_FULL)
     {
-        $response = $this->connection->get('Subscribers', [
+        $result = $this->connection->get('Subscribers', [
             'email' => $email,
             'option' => $option
         ]);
 
-        if (isset($response->ErrorMessage) && $response->ErrorMessage->Code == "400") {
+        if (isset($result['response']->ErrorMessage) && $result['response']->ErrorMessage->Code == "400") {
             return null;
         }
 
-        return new mappers\Subscriber($response);
+        return new mappers\Subscriber($email, isset($result['response']->Data) ? (array) $result['response']->Data : []);
     }
 
     /**
-     * Create new subscriber
+     * Save subscriber to list
      * @param mappers\Subscriber $subscriber
+     * @param $listId
      * @return bool
      */
-    public function create(mappers\Subscriber $subscriber)
+    public function save(mappers\Subscriber $subscriber, $listId)
     {
-        return $this->save($subscriber);
+        $result = $this->connection->post('Subscribers', $this->getSubscriberXml($subscriber, $listId));
+        return $result['code'] === 201;
     }
 
     /**
-     * Update subscriber
+     * Return xml-object with subscriber data (for send to save method)
      * @param mappers\Subscriber $subscriber
-     * @return bool
+     * @param $listId
+     * @return \SimpleXMLElement
      */
-    public function update(mappers\Subscriber $subscriber)
+    protected function getSubscriberXml(mappers\Subscriber $subscriber, $listId)
     {
-        return $this->save($subscriber);
-    }
+        $xml = $this->connection->getDefaultRequestXml();
 
-    protected function save(mappers\Subscriber $subscriber)
-    {
-        $response = $this->connection->post('Subscribers', $subscriber->toArray());
+        // enable detailed response
+        $xml->addChild('ReturnData', 'true');
+        // add Data node with subscriber fields
+        $dataXml = $xml->addChild('Data');
+        $dataXml->addAttribute('xmlns:xsi:type', 'Subscriber');
+        $dataXml->addChild('Email', $subscriber->email);
+        $dataXml->addChild('Firstname', $subscriber->firstname);
+        $dataXml->addChild('ListId', $listId);
 
-        return true;
+        // add Properties list for subscriber
+        $xmlProperties = $dataXml->addChild('Properties');
+        foreach ($subscriber->properties as $property) {
+
+            $xmlProperty = $xmlProperties->addChild('Property');
+            $xmlProperty->addChild('Id', $property->id);
+            $xmlProperty->addChild('Type', $property->type);
+            $xmlPropertyValue = $xmlProperty->addChild('Value', $property->value);
+            $xmlPropertyValue->addAttribute('xmlns:xsi:type', 'xs:' . $property->type);
+        }
+
+        return $xml;
     }
 }
