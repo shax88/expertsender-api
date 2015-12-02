@@ -29,6 +29,14 @@ class ExpertSenderApi
     }
 
     /**
+     * @return \desher\expertsender\methods\Lists
+     */
+    public function getLists()
+    {
+        return $this->getApiSection('lists');
+    }
+
+    /**
      * @param $name
      * @return mixed instance of specified section
      */

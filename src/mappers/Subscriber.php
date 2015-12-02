@@ -52,6 +52,11 @@ class Subscriber
         $this->id = (int) $value;
     }
 
+    public function setFirstname($value)
+    {
+        $this->firstname = $value;
+    }
+
     public function setIp($value)
     {
         $this->ip = (string) $value;
