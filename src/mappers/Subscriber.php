@@ -10,7 +10,6 @@ class Subscriber
     public $email;
     public $firstname;
     public $lastname;
-
     public $properties = [];
     public $lists = [];
 

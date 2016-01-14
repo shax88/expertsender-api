@@ -52,12 +52,12 @@ class ExpertSenderApiConnection
      * @param \SimpleXMLElement $data
      * @return array
      */
-    public function post($method, \SimpleXMLElement $data)
+    public function post($method, \SimpleXMLElement $data, $prepareResonse = true)
     {
         $request = new Request('POST', $method, ['content-type' => 'text/xml'], $data->asXML());
         $response = $this->httpClient->send($request, ['http_errors' => false]);
 
-        return ['code' => $response->getStatusCode(), 'response' => $this->prepareResponse($response)];
+        return ['code' => $response->getStatusCode(), 'response' => ($prepareResonse ? $this->prepareResponse($response) : (string) $response->getBody())];
     }
 
     /**
