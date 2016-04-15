@@ -15,7 +15,7 @@ class ExpertSenderApi
     /**
      * @return \PicodiLab\Expertsender\Method\Subscribers
      */
-    public function getSubscribers()
+    public function Subscribers()
     {
         return $this->getApiSection('subscribers');
     }
@@ -23,7 +23,7 @@ class ExpertSenderApi
     /**
      * @return \PicodiLab\Expertsender\Method\Tables
      */
-    public function getTables()
+    public function Tables()
     {
         return $this->getApiSection('tables');
     }
@@ -31,9 +31,17 @@ class ExpertSenderApi
     /**
      * @return \PicodiLab\Expertsender\Method\Lists
      */
-    public function getLists()
+    public function Lists()
     {
         return $this->getApiSection('lists');
+    }
+
+    /**
+     * @return \PicodiLab\Expertsender\Method\Goals
+     */
+    public function Goals()
+    {
+        return $this->getApiSection('goals');
     }
 
     /**

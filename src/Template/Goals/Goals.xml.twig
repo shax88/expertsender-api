@@ -1,8 +1,8 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <ApiKey>{{ apiKey }}</ApiKey>
     <Data>
-        <GoalId>2</GoalId>
-        <GoalValue>123</GoalValue>
-        <MessageGuid>C7015756-95F3-4509-8C6C-759FEEC48F91</MessageGuid>
+        <GoalId>{{ Goal.getId }}</GoalId>
+        <GoalValue>{{ Goal.getValue }}</GoalValue>
+        <MessageGuid>{{ Goal.getMessageGuid }}</MessageGuid>
     </Data>
 </ApiRequest>
