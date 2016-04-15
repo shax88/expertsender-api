@@ -1,10 +1,14 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <ApiKey>{{ apiKey }}</ApiKey>
-    <TableName>Table1</TableName>
-    <PrimaryKeyColumns>
-        <Column>
-            <Name>Id</Name>
-            <Value>1</Value>
-        </Column>
-    </PrimaryKeyColumns>
+    <TableName>{{ tableName }}</TableName>
+    {% if conditions %}
+        <PrimaryKeyColumns>
+            {% for c,v in conditions %}
+                <Column>
+                    <Name>{{ c }}</Name>
+                    <Value>{{ v }}</Value>
+                </Column>
+            {% endfor %}
+        </PrimaryKeyColumns>
+    {% endif %}
 </ApiRequest>

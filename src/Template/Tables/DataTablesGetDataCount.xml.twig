@@ -1,11 +1,15 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <ApiKey>{{ apiKey }}</ApiKey>
-    <TableName>Tabela</TableName>
-    <WhereConditions>
-        <Where>
-            <ColumnName>Kolumna8</ColumnName>
-            <Operator>Like</Operator>
-            <Value>test</Value>
-        </Where>
-    </WhereConditions>
+    <TableName>{{ tableName }}</TableName>
+    {% if conditions is defined and conditions %}
+        <WhereConditions>
+            {% for where in conditions %}
+                <Where>
+                    <ColumnName>{{ where.ColumnName }}</ColumnName>
+                    <Operator>{{ where.Operator }}</Operator>
+                    <Value>{{ where.Value }}</Value>
+                </Where>
+            {% endfor %}
+        </WhereConditions>
+    {% endif %}
 </ApiRequest>
