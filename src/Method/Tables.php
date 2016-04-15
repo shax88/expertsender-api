@@ -4,7 +4,7 @@ namespace PicodiLab\Expertsender\Method;
 
 use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 use PicodiLab\Expertsender\Exception\MethodInMapperNotFound;
-use PicodiLab\Expertsender\mappers;
+use PicodiLab\Expertsender\Mapper;
 
 class Tables extends AbstractMethod
 {

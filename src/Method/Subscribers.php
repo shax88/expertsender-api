@@ -2,7 +2,7 @@
 
 namespace PicodiLab\Expertsender\Method;
 
-use PicodiLab\Expertsender\mappers;
+use PicodiLab\Expertsender\Mapper;
 
 class Subscribers extends AbstractMethod
 {
@@ -19,7 +19,7 @@ class Subscribers extends AbstractMethod
      * Subscriber info
      * @param $email
      * @param string $option
-     * @return mappers\Subscriber|null
+     * @return Mapper\Subscriber|null
      */
     public function get($email, $option = self::INFO_OPTION_FULL)
     {
@@ -32,16 +32,16 @@ class Subscribers extends AbstractMethod
             return null;
         }
 
-        return new mappers\Subscriber($email, isset($result['response']->Data) ? (array) $result['response']->Data : []);
+        return new Mapper\Subscriber($email, isset($result['response']->Data) ? (array) $result['response']->Data : []);
     }
 
     /**
      * Save subscriber to list
-     * @param mappers\Subscriber $subscriber
+     * @param Mapper\Subscriber $subscriber
      * @param $listId
      * @return bool
      */
-    public function save(mappers\Subscriber $subscriber, $listId)
+    public function save(Mapper\Subscriber $subscriber, $listId)
     {
         $result = $this->connection->post('Subscribers', $this->getSubscriberXml($subscriber, $listId));
         return $result['code'] === 201;
@@ -49,11 +49,11 @@ class Subscribers extends AbstractMethod
 
     /**
      * Return xml-object with subscriber data (for send to save method)
-     * @param mappers\Subscriber $subscriber
+     * @param Mapper\Subscriber $subscriber
      * @param $listId
      * @return \SimpleXMLElement
      */
-    protected function getSubscriberXml(mappers\Subscriber $subscriber, $listId)
+    protected function getSubscriberXml(Mapper\Subscriber $subscriber, $listId)
     {
         $xml = $this->connection->getDefaultRequestXml();
 

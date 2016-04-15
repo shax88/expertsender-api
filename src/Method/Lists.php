@@ -2,11 +2,11 @@
 
 namespace PicodiLab\Expertsender\Method;
 
-use PicodiLab\Expertsender\mappers;
+use PicodiLab\Expertsender\Mapper;
 
 class Lists extends AbstractMethod
 {
-    public function createList(mappers\SubscribersList $list)
+    public function createList(Mapper\SubscribersList $list)
     {
         $result = $this->connection->post('Lists', $this->getListXml($list));
         if ($result['code'] === 201) {
@@ -15,7 +15,7 @@ class Lists extends AbstractMethod
         return null;
     }
 
-    protected function getListXml(mappers\SubscribersList $list)
+    protected function getListXml(Mapper\SubscribersList $list)
     {
         $xml = $this->connection->getDefaultRequestXml();
 

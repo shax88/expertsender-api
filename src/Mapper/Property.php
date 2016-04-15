@@ -1,6 +1,6 @@
 <?php
 
-namespace PicodiLab\Expertsender\mappers;
+namespace PicodiLab\Expertsender\Mapper;
 
 class Property
 {
