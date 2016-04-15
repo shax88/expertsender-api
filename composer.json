@@ -1,8 +1,12 @@
 {
-    "name": "desher/expertsender-api",
-    "description": "ExpertSender API client",
+    "name": "PicodiLab/ExpertsenderApiClient",
+    "description": "ExpertSender API client (by Picodi)",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Bartek Tyranowski",
+            "email": "bartek.tyranowski@picodi.com"
+        },
         {
             "name": "Roman Kuzakov",
             "email": "roman.kuzakov@gmail.com"
@@ -17,7 +21,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "desher\\Expertsender\\": "src/"
+            "PicodiLab\\Expertsender\\": "src/"
         }
     }
 }

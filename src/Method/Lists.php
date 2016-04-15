@@ -1,8 +1,8 @@
 <?php
 
-namespace desher\Expertsender\Method;
+namespace PicodiLab\Expertsender\Method;
 
-use desher\Expertsender\mappers;
+use PicodiLab\Expertsender\mappers;
 
 class Lists extends AbstractMethod
 {

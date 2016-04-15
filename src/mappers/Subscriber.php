@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\Expertsender\mappers;
+namespace PicodiLab\Expertsender\mappers;
 
 class Subscriber
 {

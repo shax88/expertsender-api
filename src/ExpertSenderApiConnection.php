@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\Expertsender;
+namespace PicodiLab\Expertsender;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -8,14 +8,14 @@ use GuzzleHttp\Psr7\Response;
 
 class ExpertSenderApiConnection
 {
-    /** @var string api url  */
-    private $url = 'https://api2.esv2.com/Api/';
+    /** @var string api url */
+    protected $url = 'https://api2.esv2.com/Api/';
 
     /** @var  string api key */
-    private $key;
+    protected $key;
 
-    /** @var Client  */
-    private $httpClient;
+    /** @var Client */
+    protected $httpClient;
 
     public function __construct($key, $url)
     {
@@ -26,6 +26,24 @@ class ExpertSenderApiConnection
         }
 
         $this->httpClient = new Client(['base_uri' => $this->url]);
+    }
+
+    /**
+     * gets the API URL
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * gets the API key
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
     }
 
     /**
@@ -49,15 +67,18 @@ class ExpertSenderApiConnection
     /**
      * POST method
      * @param $method
-     * @param \SimpleXMLElement $data
+     * @param $requestBody
      * @return array
      */
-    public function post($method, \SimpleXMLElement $data, $prepareResonse = true)
+    public function post($method, $requestBody, $prepareResonse = false)
     {
-        $request = new Request('POST', $method, ['content-type' => 'text/xml'], $data->asXML());
+
+        $request = new Request('POST', $method, ['content-type' => 'text/xml'], $requestBody);
         $response = $this->httpClient->send($request, ['http_errors' => false]);
 
-        return ['code' => $response->getStatusCode(), 'response' => ($prepareResonse ? $this->prepareResponse($response) : (string) $response->getBody())];
+
+        return $response;
+
     }
 
     /**
@@ -67,7 +88,8 @@ class ExpertSenderApiConnection
      * @param \SimpleXMLElement $child
      * @return \SimpleXMLElement
      */
-    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child) {
+    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child)
+    {
         $toDom = dom_import_simplexml($parent);
         $fromDom = dom_import_simplexml($child);
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
@@ -81,7 +103,7 @@ class ExpertSenderApiConnection
      */
     public function prepareResponse(Response $response)
     {
-        $responseBody = (string) $response->getBody();
+        $responseBody = (string)$response->getBody();
         if ($responseBody) {
             return simplexml_load_string($responseBody);
         }

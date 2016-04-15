@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\Expertsender;
+namespace PicodiLab\Expertsender;
 
 class ExpertSenderApi
 {
@@ -13,7 +13,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\Expertsender\Method\Subscribers
+     * @return \PicodiLab\Expertsender\Method\Subscribers
      */
     public function getSubscribers()
     {
@@ -21,7 +21,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\Expertsender\Method\Tables
+     * @return \PicodiLab\Expertsender\Method\Tables
      */
     public function getTables()
     {
@@ -29,7 +29,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\Expertsender\Method\Lists
+     * @return \PicodiLab\Expertsender\Method\Lists
      */
     public function getLists()
     {
@@ -44,7 +44,7 @@ class ExpertSenderApi
     {
         $className = ucfirst($name);
         if (!isset($this->sections[$name])) {
-            $classFullName = 'desher\\Expertsender\\Method\\' . $className;
+            $classFullName = 'PicodiLab\\Expertsender\\Method\\' . $className;
             return $this->sections[$name] = new $classFullName($this->connection);
         }
         return $this->sections[$name];

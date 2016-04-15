@@ -1,12 +1,47 @@
 <?php
 
-namespace desher\Expertsender\Method;
+namespace PicodiLab\Expertsender\Method;
 
-use desher\Expertsender\mappers;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
+use PicodiLab\Expertsender\Exception\MethodInMapperNotFound;
+use PicodiLab\Expertsender\mappers;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 use yii\base\Exception;
 
 class Tables extends AbstractMethod
 {
+
+    const METHOD_DataTablesGetTables = 'DataTablesGetTables';
+    const METHOD_DataTablesGetData = 'DataTablesGetData';
+    const METHOD_DataTablesGetDataCount = 'DataTablesGetDataCount';
+    const METHOD_DataTablesClearTable = 'DataTablesClearTable';
+    const METHOD_DataTablesAddRow = 'DataTablesAddRow';
+    const METHOD_DataTablesUpdateRow = 'DataTablesUpdateRow';
+    const METHOD_DataTablesDeleteRow = 'DataTablesDeleteRow';
+
+    const ORDERBY_DIRECTION_ASC = 'Ascending';
+    const ORDERBY_DIRECTION_DESC = 'Descending';
+
+
+    public function buildApiUrl($method)
+    {
+//        $refl = new \ReflectionClass(__CLASS__);
+//        $availableMethods = preg_grep('/^METHOD_/', array_flip($refl->getConstants()));
+//
+//        $const = null;
+//        if(!array_key_exists($method, $availableMethods)){
+//            throw new MethodInMapperNotFoundException('Method ' . $method . ' not found in \Mapper\Tables');
+//        }
+//        else{
+//            $const = 'METHOD_' . $method;
+//        }
+
+
+        $apiRequestUrl = $this->connection->getUrl() . $method;
+        return $apiRequestUrl;
+    }
+
     /**
      * Add a row to table
      * @param $tableName
@@ -43,7 +78,7 @@ class Tables extends AbstractMethod
      * Find rows by condition
      * @param $tableName
      * @param array $selectColumns columns in result, ex. ['email', 'dog', 'age']
-     * @param array $conditions, ex.:
+     * @param array $conditions , ex.:
      *  [
      *      ['ColumnName' =>'email', 'Operator' => 'Equals', 'Value' => 'test@text.test'],
      *      ['ColumnName' => 'dog', 'Operator' => 'Equals', 'Value' => 'beagle']
@@ -51,7 +86,7 @@ class Tables extends AbstractMethod
      * @return array
      * @throws Exception
      */
-    public function getRows($tableName, $selectColumns, $conditions)
+    public function getRows($tableName, $selectColumns, Array $conditions = [])
     {
         $xml = $this->connection->getDefaultRequestXml();
         $xml->addChild('TableName', $tableName);
@@ -59,17 +94,20 @@ class Tables extends AbstractMethod
         foreach ($selectColumns as $columnName) {
             $columnsXml->addChild('Column', $columnName);
         }
-        $conditionXml = $xml->addChild('WhereConditions');
-        foreach ($conditions as $where) {
-            $whereXml = $conditionXml->addChild('Where');
-            $whereXml->addChild('ColumnName', $where['ColumnName']);
-            $whereXml->addChild('Operator', $where['Operator']);
-            $whereXml->addChild('Value', $where['Value']);
+        if (!empty($conditions)) {
+            $conditionXml = $xml->addChild('WhereConditions');
+            foreach ($conditions as $where) {
+                $whereXml = $conditionXml->addChild('Where');
+                $whereXml->addChild('ColumnName', $where['ColumnName']);
+                $whereXml->addChild('Operator', $where['Operator']);
+                $whereXml->addChild('Value', $where['Value']);
+            }
         }
+
         $result = $this->connection->post('DataTablesGetData', $xml, false);
 
         if (!$result['code'] === 200) {
-            throw new Exception('Table row request error');
+            throw new Exception('Tables row request error');
         }
         $lines = explode(PHP_EOL, trim($result['response']));
         unset($lines[0]);
@@ -95,5 +133,35 @@ class Tables extends AbstractMethod
         }
 
         return $xml;
+    }
+
+
+    // ------------------------------- PicodiLab
+
+
+    public function doDataTablesGetData($tableName, Array $params = [])
+    {
+        $defaultParams = [
+            'Columns' => [],
+            'Where' => [],
+            'OrderBy' => '',
+            'Limit' => [],
+        ];
+
+        $params = array_merge($defaultParams, $params);
+
+        $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesGetData);
+        $requestBody = $this->render('Tables/DataTablesGetData', array_merge($params, [
+            'tableName' => $tableName,
+            'apiKey' => $this->connection->getKey(),
+        ]));
+
+        $response = $this->connection->post($requestUrl, $requestBody);
+
+        if($response->getStatusCode() != 200){
+            throw new InvalidExpertsenderApiRequestException();
+        }
+
+        return $response->getBody();
     }
 }

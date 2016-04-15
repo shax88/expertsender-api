@@ -1,0 +1,33 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <TableName>{{ tableName }}</TableName>
+    {% if Columns is defined and Columns %}
+        <Columns>
+            {% for column in Columns %}
+                <Column>{{ column }}</Column>
+            {% endfor %}
+        </Columns>
+    {% endif %}
+    {% if Where is defined and Where %}
+        <WhereConditions>
+            {% for where in Where %}
+                <Where>
+                    <ColumnName>{{ where.ColumnName }}</ColumnName>
+                    <Operator>{{ where.Operator }}</Operator>
+                    <Value>{{ where.Value }}</Value>
+                </Where>
+            {% endfor %}
+        </WhereConditions>
+    {% endif %}
+    {% if OrderBy is defined and OrderBy %}
+        <OrderByColumns>
+            <OrderBy>
+                <ColumnName>{{ OrderBy.ColumnName }}</ColumnName>
+                <Direction>{{ OrderBy.Direction }}</Direction>
+            </OrderBy>
+        </OrderByColumns>
+    {% endif %}
+    {% if Limit is defined and Limit %}
+        <Limit>{{ Limit }}</Limit>
+    {% endif %}
+</ApiRequest>
