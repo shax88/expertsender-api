@@ -1,0 +1,51 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <Data>
+        <GeneralSettings>
+            <Name>API test list</Name>
+            <FriendlyName>Best offers!</FriendlyName>
+            <Description>This is a test list created using API</Description>
+            <Language>en-US</Language>
+            <OptInMode>DoubleOptIn</OptInMode>
+            <Charset>ISO-8859-1</Charset>
+            <SubscriptionConfirmPageUrl>
+                http://www.test.com
+            </SubscriptionConfirmPageUrl>
+            <SubscriptionThankYouPageUrl>
+                http://www.test.com
+            </SubscriptionThankYouPageUrl>
+            <RemovalPageUrl>http://www.test.com</RemovalPageUrl>
+            <PreferencesChangeUrl>http://www.test.com</PreferencesChangeUrl>
+        </GeneralSettings>
+        <AddressSettings>
+            <Company>TestCompany</Company>
+            <Address>Test Blvd.</Address>
+            <Address2>123</Address2>
+            <City>New York</City>
+            <ZipPostalCode>12345</ZipPostalCode>
+            <StateProvinceRegion>CA</StateProvinceRegion>
+            <Country>USA</Country>
+        </AddressSettings>
+        <SubscriberSettings>
+            <DefaultSubscriberName>Respectful Customer</DefaultSubscriberName>
+            <DefaultSubscriberFirstname>Customer</DefaultSubscriberFirstname>
+            <DefaultSubscriberLastname>Respectful</DefaultSubscriberLastname>
+            <FrequencyCappingTime>12</FrequencyCappingTime>
+            <DisableStandardMessageFooter>true</DisableStandardMessageFooter>
+            <DisableListUnsubscribeHeader>true</DisableListUnsubscribeHeader>
+            <AskBeforeUnsubscribing>true</AskBeforeUnsubscribing>
+        </SubscriberSettings>
+        <DomainSettings>
+            <ClickTrackingDomain>testdomain.com</ClickTrackingDomain>
+        </DomainSettings>
+        <ConfirmationEmail>
+            <FromName>Test</FromName>
+            <FromEmail>test@test.pl</FromEmail>
+            <Subject>to jest testowy subject</Subject>
+            <Html>
+            <![CDATA[<a href="*[link_confirm]*">Confirm subscription</a>]]>
+            </Html>
+            <Plain>Confirm your subscription: *[link_confirm]*</Plain>
+        </ConfirmationEmail>
+    </Data>
+</ApiRequest>

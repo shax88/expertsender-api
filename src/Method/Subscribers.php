@@ -11,6 +11,10 @@ class Subscribers extends AbstractMethod
     const INFO_OPTION_SHORT = 'Short';
     const INFO_OPTION_EVENT_HISTORY = 'EventsHistory';
 
+    const METHOD_SUBSCRIBERS = 'Subscribers';
+    const METHOD_REMOVED_SUBSCRIBERS = 'RemovedSubscribers';
+    const METHOD_SNOOZED_SUBSCRIBERS = 'SnoozedSubscribers';
+
     /**
      * Subscriber info
      * @param $email

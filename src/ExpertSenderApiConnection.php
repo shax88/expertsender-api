@@ -5,6 +5,7 @@ namespace PicodiLab\Expertsender;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 class ExpertSenderApiConnection
 {
@@ -81,20 +82,20 @@ class ExpertSenderApiConnection
 
     }
 
-    /**
-     * Add child SimpleXMLElement to parent SimpleXMLElement
-     *
-     * @param \SimpleXMLElement $parent
-     * @param \SimpleXMLElement $child
-     * @return \SimpleXMLElement
-     */
-    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child)
-    {
-        $toDom = dom_import_simplexml($parent);
-        $fromDom = dom_import_simplexml($child);
-        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
-        return $parent;
-    }
+//    /**
+//     * Add child SimpleXMLElement to parent SimpleXMLElement
+//     *
+//     * @param \SimpleXMLElement $parent
+//     * @param \SimpleXMLElement $child
+//     * @return \SimpleXMLElement
+//     */
+//    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child)
+//    {
+//        $toDom = dom_import_simplexml($parent);
+//        $fromDom = dom_import_simplexml($child);
+//        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
+//        return $parent;
+//    }
 
     /**
      * Convert response to object
@@ -110,14 +111,28 @@ class ExpertSenderApiConnection
         return null;
     }
 
-    /**
-     * Return default xml object (wrapper) for post and put requests
-     * @return \SimpleXMLElement
-     */
-    public function getDefaultRequestXml()
+    public function isResponseValid($response)
     {
-        $xmlObject = new \SimpleXMLElement('<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" />');
-        $xmlObject->addChild('ApiKey', $this->key);
-        return $xmlObject;
+        $ok = preg_match('/^2..$/', (string)$response->getStatusCode());
+
+        if(!$ok){
+            $rXml = $this->prepareResponse($response);
+            $errorCode = (string)$rXml->xpath('//ErrorMessage/Code')[0];
+            $errorMessage = (string)$rXml->xpath('//ErrorMessage/Message')[0];
+            throw new InvalidExpertsenderApiRequestException("[{$errorCode}] {$errorMessage}");
+        }
+
+        return true;
     }
+
+//    /**
+//     * Return default xml object (wrapper) for post and put requests
+//     * @return \SimpleXMLElement
+//     */
+//    public function getDefaultRequestXml()
+//    {
+//        $xmlObject = new \SimpleXMLElement('<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" />');
+//        $xmlObject->addChild('ApiKey', $this->key);
+//        return $xmlObject;
+//    }
 }

@@ -1,0 +1,22 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   <ApiKey>{{ apiKey }}</ApiKey>
+   <Data>
+     <Source>
+       <Url>ftp://ftp.expertsender.com/Lists/table_name.csv</Url>
+       <Username>username</Username>
+       <Password>password</Password>
+     </Source>
+     <Target>
+       <Name>API test import </Name>
+     </Target>
+     <ImportSetup>
+       <Mode>Add</Mode>
+       <Delimiter>,</Delimiter>
+       <Quote>"</Quote>
+       <Escape>"</Escape>
+       <Comment>|</Comment>
+       <Encoding>UTF-8</Encoding>
+       <StartingLine>1</StartingLine>
+     </ImportSetup>
+   </Data>
+ </ApiRequest>

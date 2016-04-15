@@ -5,9 +5,6 @@ namespace PicodiLab\Expertsender\Method;
 use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 use PicodiLab\Expertsender\Exception\MethodInMapperNotFound;
 use PicodiLab\Expertsender\mappers;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use yii\base\Exception;
 
 class Tables extends AbstractMethod
 {
@@ -24,35 +21,17 @@ class Tables extends AbstractMethod
     const ORDERBY_DIRECTION_DESC = 'Descending';
 
 
-    public function buildApiUrl($method)
-    {
-//        $refl = new \ReflectionClass(__CLASS__);
-//        $availableMethods = preg_grep('/^METHOD_/', array_flip($refl->getConstants()));
-//
-//        $const = null;
-//        if(!array_key_exists($method, $availableMethods)){
-//            throw new MethodInMapperNotFoundException('Method ' . $method . ' not found in \Mapper\Tables');
-//        }
-//        else{
-//            $const = 'METHOD_' . $method;
-//        }
-
-
-        $apiRequestUrl = $this->connection->getUrl() . $method;
-        return $apiRequestUrl;
-    }
-
-    /**
-     * Add a row to table
-     * @param $tableName
-     * @param $rowData
-     * @return bool
-     */
-    public function addRow($tableName, $rowData)
-    {
-        $result = $this->connection->post('DataTablesAddRow', $this->getRowXml($tableName, $rowData));
-        return $result['code'] === 204;
-    }
+//    /**
+//     * Add a row to table
+//     * @param $tableName
+//     * @param $rowData
+//     * @return bool
+//     */
+//    public function addRow($tableName, $rowData)
+//    {
+//        $result = $this->connection->post('DataTablesAddRow', $this->getRowXml($tableName, $rowData));
+//        return $result['code'] === 204;
+//    }
 
     /**
      * Delete row from datble
@@ -138,8 +117,15 @@ class Tables extends AbstractMethod
 
     // ------------------------------- PicodiLab
 
-
-    public function doDataTablesGetData($tableName, Array $params = [])
+    /**
+     * performs DataTablesGetData Api request
+     * @param $tableName
+     * @param array $params
+     * @param string $format
+     * @return mixed
+     * @throws InvalidExpertsenderApiRequestException
+     */
+    public function doDataTablesGetData($tableName, Array $params = [], $format = 'csv')
     {
         $defaultParams = [
             'Columns' => [],
@@ -158,10 +144,34 @@ class Tables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        if($response->getStatusCode() != 200){
-            throw new InvalidExpertsenderApiRequestException();
-        }
+        $this->connection->isResponseValid($response);
 
         return $response->getBody();
+    }
+
+    /**
+     * adds single row to data table
+     * @param $tableName
+     * @param array $row
+     */
+    public function addRow($tableName, Array $row)
+    {
+
+        $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesAddRow);
+        $requestBody = $this->render('Tables/DataTablesAddRow', array_merge(['Data' => $row], [
+            'tableName' => $tableName,
+            'apiKey' => $this->connection->getKey(),
+        ]));
+
+        $response = $this->connection->post($requestUrl, $requestBody);
+
+        $ok = $this->connection->isResponseValid($response);
+
+        return (boolean)$ok;
+    }
+
+    public function doDataTablesAddRowMultiple($tableName, Array $params)
+    {
+
     }
 }
