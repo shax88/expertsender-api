@@ -1,4 +1,5 @@
 composer.phar
+test.php
 vendor/
 sample/
 .idea/

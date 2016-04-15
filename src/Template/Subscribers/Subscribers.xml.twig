@@ -1,24 +1,23 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <ApiKey>{{ apiKey }}</ApiKey>
     <Data xsi:type="Subscriber">
-        <Mode>AddAndUpdate</Mode>
-        <Force>true</Force>
-        <ListId>1</ListId>
-        <Email>john.smith@domain.com</Email>
-        <Firstname>John</Firstname>
-        <Lastname>Smith</Lastname>
-        <TrackingCode>123</TrackingCode>
-        <Vendor>xyz</Vendor>
-        <Ip>11.22.33.44</Ip>
+        <Mode>{{ Subscriber.Mode }}</Mode>
+        <Force>{{ Subscriber.Force }}</Force>
+        <ListId>{{ Subscriber.ListId }}</ListId>
+        <Email>{{ Subscriber.Email }}</Email>
+        <Firstname>{{ Subscriber.Firstname }}</Firstname>
+        <Lastname>{{ Subscriber.Lastname }}</Lastname>
+        <TrackingCode>{{ Subscriber.TrackingCode }}</TrackingCode>
+        <Vendor>{{ Subscriber.Vendor }}</Vendor>
+        <Ip>{{ Subscriber.Ip }}</Ip>
+        {% if Subscriber.Properties is defined and Subscriber.Properties %}
         <Properties>
+            {% for Property in Subscriber.Properties %}
             <Property>
-                <Id>2</Id>
-                <Value xsi:type="xs:string">student</Value>
-            </Property>
-            <Property>
-                <Id>3</Id>
-                <Value xsi:type="xs:dateTime">1985-03-12</Value>
+                <Id>{{ Property.Id }}</Id>
+                <Value xsi:type="xs:string">{{ Property.value }}</Value> {# type to define #}
             </Property>
         </Properties>
+        {% endif %}
     </Data>
 </ApiRequest>

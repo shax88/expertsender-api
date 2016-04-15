@@ -4,14 +4,14 @@ namespace PicodiLab\Expertsender\Mapper;
 
 class Subscriber
 {
-    public $id;
-    public $ip;
-    public $inBlackList;
-    public $email;
-    public $firstname;
-    public $lastname;
-    public $properties = [];
-    public $lists = [];
+    protected $id;
+    protected $ip;
+    protected $inBlackList;
+    protected $email;
+    protected $firstname;
+    protected $lastname;
+    protected $properties = [];
+    protected $lists = [];
 
     /**
      * @param $email
@@ -48,7 +48,7 @@ class Subscriber
 
     public function setId($value)
     {
-        $this->id = (int) $value;
+        $this->id = (int)$value;
     }
 
     public function setFirstname($value)
@@ -58,12 +58,12 @@ class Subscriber
 
     public function setIp($value)
     {
-        $this->ip = (string) $value;
+        $this->ip = (string)$value;
     }
 
     public function setInBlackList($value)
     {
-        $value = (string) $value;
+        $value = (string)$value;
         if ($value == 'true') {
             $this->inBlackList = true;
         } else {
@@ -74,14 +74,14 @@ class Subscriber
     public function setProperties($values)
     {
         foreach ($values as $property) {
-            $this->properties[] = new Property((array) $property);
+            $this->properties[] = new Property((array)$property);
         }
     }
 
     public function setLists($values)
     {
         foreach ($values as $list) {
-            $this->lists[] = (array) $list;
+            $this->lists[] = (array)$list;
         }
     }
 
