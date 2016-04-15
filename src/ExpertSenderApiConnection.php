@@ -62,7 +62,7 @@ class ExpertSenderApiConnection
             'http_errors' => false,
         ]);
 
-        return ['code' => $response->getStatusCode(), 'response' => $this->prepareResponse($response)];
+        return $response;
     }
 
     /**
@@ -77,25 +77,9 @@ class ExpertSenderApiConnection
         $request = new Request('POST', $method, ['content-type' => 'text/xml'], $requestBody);
         $response = $this->httpClient->send($request, ['http_errors' => false]);
 
-
         return $response;
 
     }
-
-//    /**
-//     * Add child SimpleXMLElement to parent SimpleXMLElement
-//     *
-//     * @param \SimpleXMLElement $parent
-//     * @param \SimpleXMLElement $child
-//     * @return \SimpleXMLElement
-//     */
-//    public function addChildSimpleXml(\SimpleXMLElement $parent, \SimpleXMLElement $child)
-//    {
-//        $toDom = dom_import_simplexml($parent);
-//        $fromDom = dom_import_simplexml($child);
-//        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
-//        return $parent;
-//    }
 
     /**
      * Convert response to object
