@@ -1,8 +1,8 @@
 <?php
 
-namespace desher\expertsender\methods;
+namespace desher\Expertsender\Method;
 
-use desher\expertsender\ExpertSenderApiConnection;
+use desher\Expertsender\ExpertSenderApiConnection;
 
 abstract class AbstractMethod
 {

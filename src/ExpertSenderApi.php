@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\expertsender;
+namespace desher\Expertsender;
 
 class ExpertSenderApi
 {
@@ -13,7 +13,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\expertsender\methods\Subscribers
+     * @return \desher\Expertsender\Method\Subscribers
      */
     public function getSubscribers()
     {
@@ -21,7 +21,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\expertsender\methods\Tables
+     * @return \desher\Expertsender\Method\Tables
      */
     public function getTables()
     {
@@ -29,7 +29,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \desher\expertsender\methods\Lists
+     * @return \desher\Expertsender\Method\Lists
      */
     public function getLists()
     {
@@ -44,7 +44,7 @@ class ExpertSenderApi
     {
         $className = ucfirst($name);
         if (!isset($this->sections[$name])) {
-            $classFullName = 'desher\\expertsender\\methods\\' . $className;
+            $classFullName = 'desher\\Expertsender\\Method\\' . $className;
             return $this->sections[$name] = new $classFullName($this->connection);
         }
         return $this->sections[$name];

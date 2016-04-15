@@ -10,12 +10,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "guzzlehttp/guzzle" : "6.1.*"
+        "guzzlehttp/guzzle" : "6.1.*",
+        "twig/twig": "^1.24",
+        "monolog/monolog": "^1.19"
     },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "desher\\expertsender\\": "src/"
+            "desher\\Expertsender\\": "src/"
         }
     }
 }

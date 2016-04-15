@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\expertsender;
+namespace desher\Expertsender;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;

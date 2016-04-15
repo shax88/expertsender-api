@@ -1,6 +1,6 @@
 <?php
 
-namespace desher\expertsender\mappers;
+namespace desher\Expertsender\mappers;
 
 class SubscribersList
 {

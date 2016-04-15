@@ -1,8 +1,8 @@
 <?php
 
-namespace desher\expertsender\methods;
+namespace desher\Expertsender\Method;
 
-use desher\expertsender\mappers;
+use desher\Expertsender\mappers;
 use yii\base\Exception;
 
 class Tables extends AbstractMethod

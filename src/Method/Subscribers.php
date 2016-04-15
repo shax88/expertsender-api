@@ -1,8 +1,8 @@
 <?php
 
-namespace desher\expertsender\methods;
+namespace desher\Expertsender\Method;
 
-use desher\expertsender\mappers;
+use desher\Expertsender\mappers;
 
 class Subscribers extends AbstractMethod
 {
