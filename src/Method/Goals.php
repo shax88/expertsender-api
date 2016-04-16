@@ -11,6 +11,8 @@ class Goals extends AbstractMethod
 
     const METHOD_Goals = 'Goals';
 
+    protected $mapperName = 'Goal';
+
     /**
      * fulfils the given goal through Api request
      * @param Mapper\Goal $goal
@@ -22,7 +24,7 @@ class Goals extends AbstractMethod
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_Goals);
 
-        $requestBody = $this->render('Goals/Goals', [
+        $requestBody = $this->renderRequestBody('Goals/Goals', [
             'Goal' => $goal,
             'apiKey' => $this->connection->getKey(),
         ]);

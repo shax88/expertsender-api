@@ -2,6 +2,7 @@
 
 namespace PicodiLab\Expertsender\Method;
 
+use GuzzleHttp\Psr7\Response;
 use PicodiLab\Expertsender\Mapper;
 
 class Subscribers extends AbstractMethod
@@ -15,24 +16,27 @@ class Subscribers extends AbstractMethod
     const METHOD_REMOVED_SUBSCRIBERS = 'RemovedSubscribers';
     const METHOD_SNOOZED_SUBSCRIBERS = 'SnoozedSubscribers';
 
+    protected $mapperName = 'Subscriber';
+
     /**
      * Subscriber info
      * @param $email
      * @param string $option
      * @return Mapper\Subscriber|null
      */
-    public function get($email, $option = self::INFO_OPTION_FULL)
+    public function get($email, $option = self::INFO_OPTION_FULL, $mapCustomFields = true)
     {
-        $result = $this->connection->get('Subscribers', [
+        $response = $this->connection->get('Subscribers', [
+            'apiKey' => $this->connection->getKey(),
             'email' => $email,
-            'option' => $option
+            'option' => $option,
         ]);
 
-        if (isset($result['response']->ErrorMessage) && $result['response']->ErrorMessage->Code == "400") {
-            return null;
-        }
+        $this->connection->isResponseValid($response);
 
-        return new Mapper\Subscriber($email, isset($result['response']->Data) ? (array) $result['response']->Data : []);
+        $rXml = $this->connection->prepareResponse($response);
+
+        return new Mapper\Subscriber($email, isset($rXml->Data) ? (array)$rXml->Data : []);
     }
 
     /**

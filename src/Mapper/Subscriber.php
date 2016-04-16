@@ -2,6 +2,8 @@
 
 namespace PicodiLab\Expertsender\Mapper;
 
+use PicodiLab\Expertsender\Method\Fields;
+
 class Subscriber
 {
     protected $id;
@@ -74,7 +76,12 @@ class Subscriber
     public function setProperties($values)
     {
         foreach ($values as $property) {
-            $this->properties[] = new Property((array)$property);
+            if(!empty($property->Name)) {
+                $name = trim($property->Name);
+                $this->properties[$name] = new Property((array)$property);
+            }else{
+                $this->properties[] = new Property((array)$property);
+            }
         }
     }
 

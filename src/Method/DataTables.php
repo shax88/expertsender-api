@@ -6,7 +6,7 @@ use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 use PicodiLab\Expertsender\Exception\MethodInMapperNotFound;
 use PicodiLab\Expertsender\Mapper;
 
-class Tables extends AbstractMethod
+class DataTables extends AbstractMethod
 {
 
     const METHOD_DataTablesGetTables = 'DataTablesGetTables';
@@ -20,6 +20,8 @@ class Tables extends AbstractMethod
     const ORDERBY_DIRECTION_ASC = 'Ascending';
     const ORDERBY_DIRECTION_DESC = 'Descending';
 
+    protected $mapperName = 'DataTable';
+
 
     /**
      * clears given data table
@@ -31,7 +33,7 @@ class Tables extends AbstractMethod
     public function clearTable($tableName)
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesClearTable);
-        $requestBody = $this->render('Tables/DataTablesClearTable', [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesClearTable', [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]);
@@ -52,7 +54,7 @@ class Tables extends AbstractMethod
     public function deleteRow($tableName, Array $conditions)
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesDeleteRow);
-        $requestBody = $this->render('Tables/DataTablesDeleteRow', array_merge(['conditions' => $conditions], [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesDeleteRow', array_merge(['conditions' => $conditions], [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]));
@@ -74,7 +76,7 @@ class Tables extends AbstractMethod
     public function updateRow($tableName, Array $data, Array $conditions)
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesUpdateRow);
-        $requestBody = $this->render('Tables/DataTablesUpdateRow', array_merge(
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesUpdateRow', array_merge(
             ['conditions' => $conditions],
             ['data' => $data],
             [
@@ -110,7 +112,7 @@ class Tables extends AbstractMethod
         $params = array_merge($defaultParams, $params);
 
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesGetData);
-        $requestBody = $this->render('Tables/DataTablesGetData', array_merge($params, [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesGetData', array_merge($params, [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]));
@@ -119,7 +121,7 @@ class Tables extends AbstractMethod
 
         $this->connection->isResponseValid($response);
 
-        return $response->getBody();
+        return $this->formatResponse($response);
     }
 
 
@@ -135,7 +137,7 @@ class Tables extends AbstractMethod
     {
 
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesGetDataCount);
-        $requestBody = $this->render('Tables/DataTablesGetDataCount', array_merge(['conditions' => $conditions], [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesGetDataCount', array_merge(['conditions' => $conditions], [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]));
@@ -159,7 +161,7 @@ class Tables extends AbstractMethod
     {
 
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesAddRow);
-        $requestBody = $this->render('Tables/DataTablesAddRow', array_merge(['Data' => $row], [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesAddRow', array_merge(['Data' => $row], [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]));
@@ -182,7 +184,7 @@ class Tables extends AbstractMethod
     public function addRows($tableName, Array $rows)
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_DataTablesAddRow);
-        $requestBody = $this->render('Tables/DataTablesAddRowMultiData', array_merge(['MultiData' => $rows], [
+        $requestBody = $this->renderRequestBody('DataTables/DataTablesAddRowMultiData', array_merge(['MultiData' => $rows], [
             'tableName' => $tableName,
             'apiKey' => $this->connection->getKey(),
         ]));
@@ -193,4 +195,12 @@ class Tables extends AbstractMethod
 
         return (boolean)$ok;
     }
+
+    
+    public function asObject($input)
+    {
+        return $this->asArray($input); // no object type supported here.
+    }
+
+
 }

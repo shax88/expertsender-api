@@ -8,7 +8,7 @@ class Goal
     protected $value;
     protected $messageGuid;
 
-    function __construct($id, $value, $messageGuid = null)
+    function __construct($id, $value, $messageGuid)
     {
         $this->id = $id;
         $this->value = $value;

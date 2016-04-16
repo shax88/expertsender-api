@@ -7,9 +7,15 @@ class ExpertSenderApi
     protected $connection;
     protected $sections = [];
 
+    protected $customFields = [];
+
     public function __construct($apiKey, $apiUrl = null)
     {
         $this->connection = new ExpertSenderApiConnection($apiKey, $apiUrl);
+    }
+
+    public function prepareBusinessUnit(){
+        $this->customFields = $this->Fields()->setOutputFormat('ARRAY')->get();
     }
 
     /**
@@ -21,11 +27,11 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Tables
+     * @return \PicodiLab\Expertsender\Method\DataTables
      */
-    public function Tables()
+    public function DataTables()
     {
-        return $this->getApiSection('tables');
+        return $this->getApiSection('dataTables');
     }
 
     /**
@@ -45,6 +51,38 @@ class ExpertSenderApi
     }
 
     /**
+     * @return \PicodiLab\Expertsender\Method\Activities
+     */
+    public function Activities()
+    {
+        return $this->getApiSection('activities');
+    }
+
+    /**
+     * @return \PicodiLab\Expertsender\Method\Statistics
+     */
+    public function Statistics()
+    {
+        return $this->getApiSection('statistics');
+    }
+
+    /**
+     * @return \PicodiLab\Expertsender\Method\Fields
+     */
+    public function Fields()
+    {
+        return $this->getApiSection('fields');
+    }
+
+    /**
+     * @return \PicodiLab\Expertsender\Method\Segments
+     */
+    public function Segments()
+    {
+        return $this->getApiSection('segments');
+    }
+
+    /**
      * @param $name
      * @return mixed instance of specified section
      */
@@ -57,4 +95,6 @@ class ExpertSenderApi
         }
         return $this->sections[$name];
     }
+
+
 }

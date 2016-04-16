@@ -2,77 +2,60 @@
 
 namespace PicodiLab\Expertsender\Mapper;
 
-class Property
+class Property extends Field
 {
-    const TYPE_BOOLEAN = 'boolean';
-    const TYPE_STRING = 'string';
-    const TYPE_INTEGER = 'integer';
-    const TYPE_DOUBLE = 'double';
-    const TYPE_DATE = 'date';
-    const TYPE_DATE_TIME = 'dateTime';
 
-    public $id;
-    public $type;
-    public $value;
+    /**
+     * @var string
+     */
+    protected $source;
 
-    public function __construct($data)
-    {
-        if (isset($data['Id'])) {
-            $this->setId($data['Id']);
-        }
-        if (isset($data['Type'])) {
-            $this->setType($data['Type']);
-        }
-        if (isset($data['Value'])) {
-            $this->setValue($data['Value']);
-        }
-        if (isset($data['IntValue'])) {
-            $this->setIntValue($data['IntValue']);
-        }
-        if (isset($data['StringValue'])) {
-            $this->setValue($data['StringValue']);
-        }
-        if (isset($data['DecimalValue'])) {
-            $this->setDecimalValue($data['DecimalValue']);
-        }
-        if (isset($data['DateTimeValue'])) {
-            $this->setValue($data['DateTimeValue']);
-        }
-    }
+    /**
+     * @var string
+     */
+    protected $defaultStringValue;
+
+    /**
+     * @var int
+     */
+    protected $defaultIntValue;
+
+    /**
+     * @var string
+     */
+    protected $defaultDateTimeValue;
+
+    /**
+     * @var float
+     */
+    protected $defaultDecimalValue;
+
+    /**
+     * @var string
+     */
+    protected $stringValue;
+
+    /**
+     * @var int
+     */
+    protected $intValue;
+
+    /**
+     * @var string
+     */
+    protected $dateTimeValue;
+
+    /**
+     * @var float
+     */
+    protected $decimalValue;
+
 
     public function setId($value)
     {
-        $this->id = (int) $value;
+        $this->id = (int)$value;
     }
 
-    public function setType($value)
-    {
-        if ($value == 'Boolean') {
-            $this->type = self::TYPE_BOOLEAN;
-        }
-        if ($value == 'Text') {
-            $this->type = self::TYPE_STRING;
-        }
-        if ($value == 'Number') {
-            $this->type = self::TYPE_DOUBLE;
-        }
-        if ($value == 'Money') {
-            $this->type = self::TYPE_DOUBLE;
-        }
-        if ($value == 'Url') {
-            $this->type = self::TYPE_STRING;
-        }
-        if ($value == 'Date') {
-            $this->type = self::TYPE_DATE;
-        }
-        if ($value == 'Datetime') {
-            $this->type = self::TYPE_DATE_TIME;
-        }
-        if ($value == 'SingleSelect') {
-            $this->type = self::TYPE_STRING;
-        }
-        $this->type = $value;
-    }
 
     public function setValue($value)
     {
@@ -85,11 +68,133 @@ class Property
 
     public function setIntValue($value)
     {
-        $this->value = (int) $value;
+        $this->value = (int)$value;
     }
 
     public function setDecimalValue($value)
     {
         $this->value = floatval($value);
     }
+
+    /**
+     * @return string
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
+     * @param string $source
+     * @return Property
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultStringValue()
+    {
+        return $this->defaultStringValue;
+    }
+
+    /**
+     * @param string $defaultStringValue
+     */
+    public function setDefaultStringValue($defaultStringValue)
+    {
+        $this->defaultStringValue = (string)(trim($defaultStringValue));
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultIntValue()
+    {
+        return $this->defaultIntValue;
+    }
+
+    /**
+     * @param int $defaultIntValue
+     */
+    public function setDefaultIntValue($defaultIntValue)
+    {
+        $this->defaultIntValue = $defaultIntValue;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultDateTimeValue()
+    {
+        return $this->defaultDateTimeValue;
+    }
+
+    /**
+     * @param string $defaultDateTimeValue
+     */
+    public function setDefaultDateTimeValue($defaultDateTimeValue)
+    {
+        $this->defaultDateTimeValue = $defaultDateTimeValue;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDefaultDecimalValue()
+    {
+        return $this->defaultDecimalValue;
+    }
+
+    /**
+     * @param float $defaultDecimalValue
+     */
+    public function setDefaultDecimalValue($defaultDecimalValue)
+    {
+        $this->defaultDecimalValue = $defaultDecimalValue;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStringValue()
+    {
+        return $this->stringValue;
+    }
+
+    /**
+     * @param string $stringValue
+     */
+    public function setStringValue($stringValue)
+    {
+        $this->stringValue = (string)(trim($stringValue));
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateTimeValue()
+    {
+        return $this->dateTimeValue;
+    }
+
+    /**
+     * @param string $dateTimeValue
+     */
+    public function setDateTimeValue($dateTimeValue)
+    {
+        $this->dateTimeValue = $dateTimeValue;
+        return $this;
+    }
+
+
 }
