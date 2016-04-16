@@ -24,7 +24,7 @@ abstract class AbstractMethod
     public function __construct($connection)
     {
         $this->connection = $connection;
-        $this->outputFormat = self::FORMAT_CSV;
+        $this->outputFormat = self::FORMAT_RAW;
     }
 
 

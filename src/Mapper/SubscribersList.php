@@ -2,7 +2,7 @@
 
 namespace PicodiLab\Expertsender\Mapper;
 
-class SubscribersList
+class SubscribersList extends MapperAbstract
 {
     protected $id;
     protected $name;
@@ -10,15 +10,10 @@ class SubscribersList
     protected $language;
     protected $optInMode;
 
-    function __construct($name, $language = 'ru-RU')
-    {
-        $this->name = $name;
-        $this->language = $language;
-    }
 
-    public function getName()
-    {
-        return $this->name;
+    public function setLanguage($language){
+        $this->language = $language;
+        return $this;
     }
 
     public function getLanguage()
@@ -43,6 +38,26 @@ class SubscribersList
         $this->id = $id;
         return $this;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $friendlyName
+     * @return SubscribersList
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -79,7 +94,6 @@ class SubscribersList
         $this->optInMode = $optInMode;
         return $this;
     }
-
 
 
 }
