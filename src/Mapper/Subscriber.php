@@ -19,12 +19,19 @@ class Subscriber
      * @param $email
      * @param mixed $data
      */
-    public function __construct($email, $data = [])
+    public function __construct($email = null, $data = [])
     {
-        $this->setEmail($email);
-
+        if (!empty($email)) {
+            $this->setEmail($email);
+        }
         if (isset($data['Id'])) {
             $this->setId($data['Id']);
+        }
+        if (isset($data['Firstname'])) {
+            $this->setFirstname($data['Firstname']);
+        }
+        if (isset($data['Lastname'])) {
+            $this->setLastname($data['Lastname']);
         }
         if (isset($data['Ip'])) {
             $this->setIp($data['Ip']);
@@ -51,16 +58,25 @@ class Subscriber
     public function setId($value)
     {
         $this->id = (int)$value;
+        return $this;
     }
 
     public function setFirstname($value)
     {
         $this->firstname = $value;
+        return $this;
+    }
+
+    public function setLastname($value)
+    {
+        $this->lastname = $value;
+        return $this;
     }
 
     public function setIp($value)
     {
         $this->ip = (string)$value;
+        return $this;
     }
 
     public function setInBlackList($value)
@@ -71,6 +87,7 @@ class Subscriber
         } else {
             $this->inBlackList = false;
         }
+        return $this;
     }
 
     public function setProperties($values)
@@ -83,6 +100,7 @@ class Subscriber
                 $this->properties[] = new Property((array)$property);
             }
         }
+        return $this;
     }
 
     public function setLists($values)
@@ -95,6 +113,7 @@ class Subscriber
     public function setEmail($value)
     {
         $this->email = $value;
+        return $this;
     }
 
     public function addProperty($id, $type, $value)
@@ -104,5 +123,45 @@ class Subscriber
             'Type' => $type,
             'Value' => $value
         ]);
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    public function getInBlackList()
+    {
+        return $this->inBlackList;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    public function getLists()
+    {
+        return $this->lists;
     }
 }

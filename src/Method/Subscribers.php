@@ -16,7 +16,100 @@ class Subscribers extends AbstractMethod
     const METHOD_REMOVED_SUBSCRIBERS = 'RemovedSubscribers';
     const METHOD_SNOOZED_SUBSCRIBERS = 'SnoozedSubscribers';
 
+    const MODE_AddAndUpdate = 'AddAndUpdate';
+    const MODE_AddAndReplace = 'AddAndReplace';
+    const MODE_AddAndIgnore = 'AddAndIgnore';
+    const MODE_IgnoreAndUpdate = 'IgnoreAndUpdate';
+    const MODE_IgnoreAndReplace = 'IgnoreAndReplace';
+
     protected $mapperName = 'Subscriber';
+
+    /**
+     * Add subscriber
+     * @param Subscriber|array $subscriber
+     * @param $listId
+     * @param array|null $options
+     * @return bool
+     */
+    public function add($subscriber, $listId, array $options = null)
+    {
+        $options = $this->getOptions([
+            'Mode' => self::MODE_AddAndIgnore
+        ], $options);
+
+        return $this->getAddRequest($subscriber, $listId, $options);
+    }
+
+    /**
+     * Update subscriber
+     * @param Subscriber|array $subscriber
+     * @param $listId
+     * @param array|null $options
+     * @return bool
+     */
+    public function update($subscriber, $listId, array $options = null)
+    {
+        $options = $this->getOptions([
+            'Mode' => self::MODE_IgnoreAndUpdate
+        ], $options);
+
+        return $this->getAddRequest($subscriber, $listId, $options);
+    }
+
+    /**
+     * @param Subscriber|array $subscriber
+     * @param $listId
+     * @param array|null $options
+     * @return bool
+     */
+    protected function getAddRequest($subscriber, $listId, array $options = null)
+    {
+        if(is_array($subscriber))
+        {
+            $subscriber = new Mapper\Subscriber($subscriber['Email'], $subscriber);
+        }
+
+        $requestUrl = $this->buildApiUrl(self::METHOD_SUBSCRIBERS);
+        $requestBody = $this->renderRequestBody('Subscribers/Subscribers', [
+            'apiKey' => $this->connection->getKey(),
+            'Subscriber' => [
+                'Mode' => $this->getOption('Mode', self::MODE_AddAndUpdate, $options),
+                'Force' => $this->getOption('Force', 'false', $options),
+                'ListId' => $listId,
+                'Email' => $subscriber->getEmail(),
+                'Firstname' => $subscriber->getFirstname(),
+                'Lastname' => $subscriber->getLastname(),
+                'TrackingCode' => $this->getOption('TrackingCode', '', $options),
+                'Vendor' => $this->getOption('Vendor', '', $options),
+                'Ip' => $subscriber->getIp(),
+                'Properties' => $subscriber->getProperties()
+            ]
+        ]);
+
+        $response = $this->connection->post($requestUrl, $requestBody);
+
+        $this->connection->isResponseValid($response);
+
+        return (boolean)$response->getBody();
+    }
+
+    protected function getOption($option, $default, array $options = null)
+    {
+        if(!empty($options) && array_key_exists($option, $options))
+        {
+            return $options[$option];
+        }
+        return $default;
+    }
+
+    protected function getOptions(array $defaults, array $options = null)
+    {
+        foreach($defaults as $key => $value)
+        {
+            $options[$key] = $this->getOption($key, $value, $options);
+        }
+        return $options;
+    }
 
     /**
      * Subscriber info
