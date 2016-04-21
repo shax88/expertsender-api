@@ -15,7 +15,7 @@
             {% for Property in Subscriber.Properties %}
             <Property>
                 <Id>{{ Property.Id }}</Id>
-                <Value xsi:type="xs:string">{{ Property.value }}</Value> {# type to define #}
+                <Value xsi:type="xs:{{ Property.type }}">{{ Property.value }}</Value> {# type to define #}
             </Property>
             {% endfor %}
         </Properties>
