@@ -6,29 +6,25 @@ PHP client for ExpertSender API
 ## Usage
 
 ```php
+$apiKey = ''; // your api key
 $expertSender = new ExpertSenderApi($apiKey);
 
-# create new list
-$list = new Mapper\SubscribersList();
-$list->name = 'Test list';
-$listId = $expertSender->getLists()->createList($list);
+# lists management:
 
-# create new subscriber in list
-$subscriber = new Mapper\Subscriber('subscriber@email.com');
-$subscriber
-        ->setFirstname('Tester')
-        ->addProperty(1, Mapper\Property::TYPE_BOOLEAN, true);
+$lists = $expertSender->Lists();
+// $lists->create('testList');
 
-$success = $expertSender->getSubscribers()->save($subscriber, $listId);
+$subscribers = $expertSender->Subscribers();
+// $testSubscriber = $subscribers->get('someone.test@email.com');
 
-if ($success) {
-    $subscriber = $expertSender->getSubscribers()->get('subscriber@email.com');
 
-    # save additional data to table
-    $expertSender->getTables()->addRow('orders', [
-        'subscriber_id' => $subscriber->getId(),
-        'product_id' => $productId,
-    ]);
-}
+$dataTableRows = $expertSender->DataTables()->getData('testTable', ['columns' => ['column1', 'column2']]);
+
+// $activities
+// fields
+// lists
+// segments
+
+// all above working in a very similar way.
 
 ```
