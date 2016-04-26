@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\PicodiLab;
+namespace PicodiLab\Expertsender;
 
 class ExpertSenderApi
 {

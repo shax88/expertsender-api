@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\PicodiLab;
+namespace PicodiLab\Expertsender;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
