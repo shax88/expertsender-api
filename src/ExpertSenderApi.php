@@ -29,7 +29,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Subscribers
+     * @return \PicodiLab\Expertsender\Method\Subscribers
      */
     public function Subscribers()
     {
@@ -37,7 +37,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\DataTables
+     * @return \PicodiLab\Expertsender\Method\DataTables
      */
     public function DataTables()
     {
@@ -45,7 +45,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Lists
+     * @return \PicodiLab\Expertsender\Method\Lists
      */
     public function Lists()
     {
@@ -53,7 +53,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Goals
+     * @return \PicodiLab\Expertsender\Method\Goals
      */
     public function Goals()
     {
@@ -61,7 +61,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Activities
+     * @return \PicodiLab\Expertsender\Method\Activities
      */
     public function Activities()
     {
@@ -69,7 +69,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Statistics
+     * @return \PicodiLab\Expertsender\Method\Statistics
      */
     public function Statistics()
     {
@@ -77,7 +77,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Method\Fields
+     * @return \PicodiLab\Expertsender\Method\Fields
      */
     public function Fields()
     {
@@ -85,7 +85,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \AppBundle\PicodiLab\Expertsender\Method\Segments
+     * @return \PicodiLab\Expertsender\Method\Segments
      */
     public function Segments()
     {
@@ -108,7 +108,7 @@ class ExpertSenderApi
     {
         $className = ucfirst($name);
         if (!isset($this->sections[$name])) {
-            $classFullName = 'AppBundle\\PicodiLab\\Method\\' . $className; // TODO repair if we use composer
+            $classFullName = 'PicodiLab\\Expertsender\\Method\\' . $className;
             return $this->sections[$name] = new $classFullName($this->connection);
         }
         return $this->sections[$name];

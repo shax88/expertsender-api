@@ -5,7 +5,7 @@ namespace PicodiLab\Expertsender;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use AppBundle\PicodiLab\Exception\InvalidExpertsenderApiRequestException;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 class ExpertSenderApiConnection
 {
