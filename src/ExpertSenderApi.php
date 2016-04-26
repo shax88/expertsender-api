@@ -1,12 +1,22 @@
 <?php
 
-namespace PicodiLab\Expertsender;
+namespace AppBundle\PicodiLab;
 
 class ExpertSenderApi
 {
+    /**
+     * @var ExpertSenderApiConnection
+     */
     protected $connection;
+
+    /**
+     * @var array
+     */
     protected $sections = [];
 
+    /**
+     * @var array
+     */
     protected $customFields = [];
 
     public function __construct($apiKey, $apiUrl = null)
@@ -19,7 +29,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Subscribers
+     * @return \AppBundle\PicodiLab\Method\Subscribers
      */
     public function Subscribers()
     {
@@ -27,7 +37,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\DataTables
+     * @return \AppBundle\PicodiLab\Method\DataTables
      */
     public function DataTables()
     {
@@ -35,7 +45,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Lists
+     * @return \AppBundle\PicodiLab\Method\Lists
      */
     public function Lists()
     {
@@ -43,7 +53,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Goals
+     * @return \AppBundle\PicodiLab\Method\Goals
      */
     public function Goals()
     {
@@ -51,7 +61,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Activities
+     * @return \AppBundle\PicodiLab\Method\Activities
      */
     public function Activities()
     {
@@ -59,7 +69,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Statistics
+     * @return \AppBundle\PicodiLab\Method\Statistics
      */
     public function Statistics()
     {
@@ -67,7 +77,7 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Fields
+     * @return \AppBundle\PicodiLab\Method\Fields
      */
     public function Fields()
     {
@@ -75,11 +85,19 @@ class ExpertSenderApi
     }
 
     /**
-     * @return \PicodiLab\Expertsender\Method\Segments
+     * @return \AppBundle\PicodiLab\Expertsender\Method\Segments
      */
     public function Segments()
     {
         return $this->getApiSection('segments');
+    }
+
+
+    /**
+     * @return ExpertSenderApiConnection
+     */
+    public function getConnection(){
+        return $this->connection;
     }
 
     /**
@@ -90,7 +108,7 @@ class ExpertSenderApi
     {
         $className = ucfirst($name);
         if (!isset($this->sections[$name])) {
-            $classFullName = 'PicodiLab\\Expertsender\\Method\\' . $className;
+            $classFullName = 'AppBundle\\PicodiLab\\Method\\' . $className; // TODO repair if we use composer
             return $this->sections[$name] = new $classFullName($this->connection);
         }
         return $this->sections[$name];

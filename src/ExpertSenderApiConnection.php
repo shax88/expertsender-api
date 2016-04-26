@@ -1,11 +1,11 @@
 <?php
 
-namespace PicodiLab\Expertsender;
+namespace AppBundle\PicodiLab;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
+use AppBundle\PicodiLab\Exception\InvalidExpertsenderApiRequestException;
 
 class ExpertSenderApiConnection
 {
@@ -17,6 +17,8 @@ class ExpertSenderApiConnection
 
     /** @var Client */
     protected $httpClient;
+
+    protected $errorLog = [];
 
     public function __construct($key, $url)
     {
@@ -99,14 +101,35 @@ class ExpertSenderApiConnection
     {
         $ok = preg_match('/^2..$/', (string)$response->getStatusCode());
 
-        if(!$ok){
+        if (!$ok) {
             $rXml = $this->prepareResponse($response);
             $errorCode = (string)$rXml->xpath('//ErrorMessage/Code')[0];
             $errorMessage = (string)$rXml->xpath('//ErrorMessage/Message')[0];
-            throw new InvalidExpertsenderApiRequestException("[{$errorCode}] {$errorMessage}");
+            $this->errorLog[] = [
+                'code' => $errorCode, 'message' => $errorMessage
+            ];
+            return false;
+//            throw new InvalidExpertsenderApiRequestException("[{$errorCode}] {$errorMessage}");
         }
 
         return true;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getErrorLog()
+    {
+        return $this->errorLog;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLastError()
+    {
+        return $this->errorLog[count($this->errorLog) - 1];
     }
 
 //    /**
