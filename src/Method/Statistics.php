@@ -2,6 +2,8 @@
 
 namespace PicodiLab\Expertsender\Method;
 
+use PicodiLab\Expertsender\Mapper;
+
 class Statistics extends AbstractMethod
 {
 
@@ -15,6 +17,16 @@ class Statistics extends AbstractMethod
 
     protected $mapperName = null;
 
-    // todo ...
+    public function get($id)
+    {
+        $response = $this->connection->get(self::METHOD_MessageStatistics . '/' . $id, [
+            'apiKey' => $this->connection->getKey(),
+        ]);
+
+        $this->connection->isResponseValid($response);
+        $rXml = $this->connection->prepareResponse($response);
+
+        return new Mapper\MessageStatistics(isset($rXml->Data) ? (array)$rXml->Data : []);
+    }
 
 }

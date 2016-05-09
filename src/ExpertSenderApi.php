@@ -92,6 +92,13 @@ class ExpertSenderApi
         return $this->getApiSection('segments');
     }
 
+    /**
+     * @return \PicodiLab\Expertsender\Method\Messages
+     */
+    public function Messages()
+    {
+        return $this->getApiSection('messages');
+    }
 
     /**
      * @return ExpertSenderApiConnection
