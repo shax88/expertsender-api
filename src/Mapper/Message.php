@@ -13,6 +13,14 @@ class Message
     protected $type;
     protected $sentDate;
     protected $tags;
+    //protected $throttlingMethod;
+    //protected $throttling;
+    //protected $googleAnalyticsTags;
+    //protected $tandexListId;
+    //protected $channels;
+    protected $lists;
+    protected $segments;
+    //protected $status;
 
     /**
      * @param mixed $data
@@ -39,6 +47,12 @@ class Message
         }
         if (isset($data['Tags'])) {
             $this->setTags($data['Tags']);
+        }
+        if (isset($data['Lists'])) {
+            $this->setLists($data['Lists']);
+        }
+        if (isset($data['Segments'])) {
+            $this->setSegments($data['Segments']);
         }
     }
 
@@ -84,6 +98,18 @@ class Message
         return $this;
     }
 
+    public function setLists($value)
+    {
+        $this->lists = $value;
+        return $this;
+    }
+
+    public function setSegments($value)
+    {
+        $this->segments = $value;
+        return $this;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -117,5 +143,15 @@ class Message
     public function getTags()
     {
         return $this->tags;
+    }
+
+    public function getLists()
+    {
+        return $this->lists;
+    }
+
+    public function getSegments()
+    {
+        return $this->segments;
     }
 }

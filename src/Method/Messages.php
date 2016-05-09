@@ -11,7 +11,7 @@ class Messages extends AbstractMethod
 
     protected $mapperName = 'Messages';
 
-    public function get()
+    public function getList()
     {
         $response = $this->connection->get(self::METHOD_MESSAGES, [
             'apiKey' => $this->connection->getKey(),
@@ -27,5 +27,17 @@ class Messages extends AbstractMethod
         }
 
         return $messages;
+    }
+
+    public function getMessage($id)
+    {
+        $response = $this->connection->get(self::METHOD_MESSAGES . '/' . $id, [
+            'apiKey' => $this->connection->getKey(),
+        ]);
+
+        $this->connection->isResponseValid($response);
+        $rXml = $this->connection->prepareResponse($response);
+
+        return new Mapper\Message(isset($rXml->Data) ? (array)$rXml->Data : []);
     }
 }
