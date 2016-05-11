@@ -52,7 +52,11 @@ class Message
             $this->setLists($data['Lists']);
         }
         if (isset($data['Segments'])) {
-            $this->setSegments($data['Segments']);
+            if ($data['Segments'] instanceof \SimpleXMLElement) {
+                $this->setSegments($data['Segments']->Segment);
+            } else {
+                $this->setSegments($data['Segments']);
+            }
         }
     }
 
@@ -104,9 +108,17 @@ class Message
         return $this;
     }
 
-    public function setSegments($value)
+    public function setSegments($values)
     {
-        $this->segments = $value;
+        foreach ($values as $segment)
+        {
+            if(!empty($segment->Name)) {
+                $name = trim($segment->Name);
+                $this->segments[$name] = new Segment((array)$segment);
+            }else{
+                $this->segments[] = new Segment((array)$segment);
+            }
+        }
         return $this;
     }
 

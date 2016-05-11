@@ -2,7 +2,7 @@
 
 namespace PicodiLab\Expertsender\Mapper;
 
-class Segment extends MapperAbstract{
+class Segment extends Field{
 
     protected $id;
     protected $name;
@@ -21,7 +21,7 @@ class Segment extends MapperAbstract{
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = (int)$id;
         return $this;
     }
 

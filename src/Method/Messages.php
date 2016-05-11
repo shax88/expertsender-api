@@ -11,11 +11,17 @@ class Messages extends AbstractMethod
 
     protected $mapperName = 'Messages';
 
-    public function getList()
+    public function getList($options = null)
     {
-        $response = $this->connection->get(self::METHOD_MESSAGES, [
+        $_options = [
             'apiKey' => $this->connection->getKey(),
-        ]);
+        ];
+        if($options && is_array($options))
+        {
+            $_options = array_merge($options, $_options);
+        }
+
+        $response = $this->connection->get(self::METHOD_MESSAGES, $_options);
 
         $this->connection->isResponseValid($response);
         $rXml = $this->connection->prepareResponse($response);
