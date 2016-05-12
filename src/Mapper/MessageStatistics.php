@@ -139,7 +139,7 @@ class MessageStatistics
 
     public function getClicks()
     {
-        return $this->clickers;
+        return $this->clicks;
     }
 
     public function getUniqueClicks()
