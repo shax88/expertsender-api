@@ -84,6 +84,23 @@ class ExpertSenderApiConnection
     }
 
     /**
+     * DELETE method
+     * @param $method
+     * @param $requestBody
+     * @return array
+     */
+    public function delete($method, array $data)
+    {
+        $response = $this->httpClient->delete($method, [
+            'query' => $data,
+            'http_errors' => false,
+        ]);
+
+        return $response;
+
+    }
+
+    /**
      * Convert response to object
      * @param Response $response
      * @return \SimpleXMLElement

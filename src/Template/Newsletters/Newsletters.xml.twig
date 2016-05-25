@@ -1,59 +1,18 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <ApiKey>2OAEcpz0Rwv3Mhc9nTQK</ApiKey>
+    <ApiKey>{{ apiKey }}</ApiKey>
     <Data>
         <Recipients>
             <SubscriberLists>
-                <SubscriberList>77</SubscriberList>
+                <SubscriberList>32</SubscriberList>
             </SubscriberLists>
-            <SubscriberSegments>
-                <SubscriberSegment>1</SubscriberSegment>
-                <SubscriberSegment>3</SubscriberSegment>
-            </SubscriberSegments>
-            <SeedLists>
-                <SeedList>1</SeedList>
-            </SeedLists>
-            <SuppressionLists>
-                <SuppressionList>1</SuppressionList>
-            </SuppressionLists>
         </Recipients>
         <Content>
-            <FromName>test</FromName>
-            <FromEmail>test@test.com</FromEmail>
-            <ReplyToName>test2</ReplyToName>
-            <ReplyToEmail>test2@test.pl</ReplyToEmail>
-            <Subject>Hello!</Subject>
-            <ContentFromUrl>
-                <Url>ftp://ftp.domain.com.creative.zip</Url>
-                <Username>username</Username>
-                <Password>password</Password>
-                <FtpAuth>ExplicitTls</FtpAuth>
-            </ContentFromUrl>
-            <GoogleAnalyticsTags>
-                <Campaign>testcampaign</Campaign>
-                <Source>testsource</Source>
-                <Content>testcontent</Content>
-            </GoogleAnalyticsTags>
-            <Tags>
-                <Tag>tag1</Tag>
-                <Tag>tag2</Tag>
-            </Tags>
+            <FromName>Picodi</FromName>
+            <FromEmail>noreply@picodi.com</FromEmail>
+            <ReplyToName>Picodi</ReplyToName>
+            <ReplyToEmail>contact@picodi.com</ReplyToEmail>
+            <Subject>{{ data.subject }}</Subject>
+            <Html>{{ data.html }}</Html>
         </Content>
-        <DeliverySettings>
-            <DeliveryDate>2012-03-23T12:00:00</DeliveryDate>
-            <TimeZone>UTC</TimeZone>
-            <OverrideDeliveryCap>true</OverrideDeliveryCap>
-            <ThrottlingMethod>Manual</ThrottlingMethod>
-            <ManualThrottlingTime>10</ManualThrottlingTime>
-            <Channels>
-                <Channel>
-                    <Ip>192.168.10.22</Ip>
-                    <Percentage>70</Percentage>
-                </Channel>
-                <Channel>
-                    <Ip>192.168.10.3</Ip>
-                    <Percentage>30</Percentage>
-                </Channel>
-            </Channels>
-        </DeliverySettings>
     </Data>
 </ApiRequest>
