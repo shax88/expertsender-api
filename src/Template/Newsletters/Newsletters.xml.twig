@@ -2,9 +2,27 @@
     <ApiKey>{{ apiKey }}</ApiKey>
     <Data>
         <Recipients>
-            <SubscriberLists>
-                <SubscriberList>32</SubscriberList>
-            </SubscriberLists>
+            {% if data.subs.lists is defined and data.subs.lists is not empty %}
+                <SubscriberLists>
+                    {% for sub in data.subs.lists %}
+                        <SubscriberList>{{ sub }}</SubscriberList>
+                    {% endfor %}
+                </SubscriberLists>
+            {% endif %}
+            {% if data.subs.segments is defined and data.subs.segments is not empty %}
+                <SubscriberSegments>
+                    {% for sub in data.subs.segments %}
+                        <SubscriberSegment>{{ sub }}</SubscriberSegment>
+                    {% endfor %}
+                </SubscriberSegments>
+            {% endif %}
+            {% if data.subs.seeds is defined and data.subs.seeds is not empty %}
+                <SeedLists>
+                    {% for sub in data.subs.seeds %}
+                        <SeedList>{{ sub }}</SeedList>
+                    {% endfor %}
+                </SeedLists>
+            {% endif %}
         </Recipients>
         <Content>
             <FromName>Picodi</FromName>
