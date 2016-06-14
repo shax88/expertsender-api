@@ -102,7 +102,8 @@ class Messages extends AbstractMethod
     }
 
     public function sendTransactinalMessage($email, $params, $message_id){
-        $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE.'/'.$message_id);
+        $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE);
+        $requestUrl .= '/'.$message_id;
         $requestBody = $this->renderRequestBody('Transactional/Message', [
             'apiKey' => $this->connection->getKey(),
             'email' => $email,
