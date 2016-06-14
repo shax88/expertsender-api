@@ -9,7 +9,7 @@ class Messages extends AbstractMethod
 {
     const METHOD_MESSAGES = 'Messages';
     const METHOD_NEWSLLETER = 'Newsletters';
-
+    const METHOD_TRANSACTIONAL_MESSAGE = 'Transactionals';
     protected $mapperName = 'Messages';
 
     public function getList($options = null)
@@ -85,7 +85,6 @@ class Messages extends AbstractMethod
 
     public function startNewsletter($id){
         $requestUrl = $this->buildApiUrl(self::METHOD_NEWSLLETER.'/'.$id);
-        $requestUrl .= '/'.$id;
         $requestBody = $this->renderRequestBody('Newsletters/ActionNewsletter', [
             'apiKey' => $this->connection->getKey(),
             'action' => 'ResumeMessage'
@@ -100,5 +99,23 @@ class Messages extends AbstractMethod
         else
             return $ok;
 
+    }
+
+    public function sendTransactinalMessage($email, $params, $message_id){
+        $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE.'/'.$message_id);
+        $requestBody = $this->renderRequestBody('Transactional/Message', [
+            'apiKey' => $this->connection->getKey(),
+            'email' => $email,
+            'params' => $params
+        ]);
+
+        $response = $this->connection->post($requestUrl, $requestBody);
+
+        $ok = $this->connection->isResponseValid($response);
+        $response = $this->connection->prepareResponse($response);
+        if($ok)
+            return $response;
+        else
+            return $ok;
     }
 }
