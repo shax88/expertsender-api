@@ -45,9 +45,9 @@ class Lists extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
+        $this->connection->isResponseValid($response);
 
-        return (boolean)$ok;
+        return $this->formatResponse($response);
     }
 
 
