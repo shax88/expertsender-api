@@ -132,6 +132,15 @@ class Subscribers extends AbstractMethod
         return new Mapper\Subscriber($email, isset($rXml->Data) ? (array)$rXml->Data : []);
     }
 
+    public function deleteSubscriber($email, $listid){
+
+        $response = $this->connection->delete(self::METHOD_SUBSCRIBERS . '?apiKey='.$this->connection->getKey().'&email='.$email.'&listId='.$listid, [
+            'apiKey' => $this->connection->getKey(),
+            'email' => $email,
+            'listId' => $listid
+        ]);
+    }
+
     /**
      * Save subscriber to list
      * @param Mapper\Subscriber $subscriber
