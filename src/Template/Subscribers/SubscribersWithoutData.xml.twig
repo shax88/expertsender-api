@@ -1,0 +1,24 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <Data>
+        <Mode>{{ Subscriber.Mode }}</Mode>
+        <Force>{{ Subscriber.Force }}</Force>
+        <ListId>{{ Subscriber.ListId }}</ListId>
+        {% if Subscriber.Email %}<Email>{{ Subscriber.Email }}</Email>{% endif %}
+        {% if Subscriber.Firstname %}<Firstname>{{ Subscriber.Firstname }}</Firstname>{% endif %}
+        {% if Subscriber.Lastname %}<Lastname>{{ Subscriber.Lastname }}</Lastname>{% endif %}
+        {% if Subscriber.TrackingCode %}<TrackingCode>{{ Subscriber.TrackingCode }}</TrackingCode>{% endif %}
+        {% if Subscriber.Vendor %}<Vendor>{{ Subscriber.Vendor }}</Vendor>{% endif %}
+        {% if Subscriber.Ip %}<Ip>{{ Subscriber.Ip }}</Ip>{% endif %}
+        {% if Subscriber.Properties is defined and Subscriber.Properties %}
+            <Properties>
+                {% for Property in Subscriber.Properties %}
+                    <Property>
+                        <Id>{{ Property.Id }}</Id>
+                        <Value xsi:type="xs:{{ Property.type }}">{{ Property.value }}</Value> {# type to define #}
+                    </Property>
+                {% endfor %}
+            </Properties>
+        {% endif %}
+    </Data>
+</ApiRequest>

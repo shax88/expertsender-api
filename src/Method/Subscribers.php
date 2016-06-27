@@ -31,13 +31,13 @@ class Subscribers extends AbstractMethod
      * @param array|null $options
      * @return bool
      */
-    public function add($subscriber, $listId, array $options = null)
+    public function add($subscriber, $listId, array $options = null, $without = 0)
     {
         $options = $this->getOptions([
             'Mode' => self::MODE_AddAndIgnore
         ], $options);
 
-        return $this->getAddRequest($subscriber, $listId, $options);
+        return $this->getAddRequest($subscriber, $listId, $options, $without);
     }
 
     /**
@@ -62,15 +62,20 @@ class Subscribers extends AbstractMethod
      * @param array|null $options
      * @return bool
      */
-    protected function getAddRequest($subscriber, $listId, array $options = null)
+    protected function getAddRequest($subscriber, $listId, array $options = null, $without = null)
     {
         if(is_array($subscriber))
         {
             $subscriber = new Mapper\Subscriber($subscriber['Email'], $subscriber);
         }
 
+        if($without)
+            $template = 'Subscribers/SubscribersWithoutData';
+        else
+            $template = 'Subscribers/Subscribers';
+
         $requestUrl = $this->buildApiUrl(self::METHOD_SUBSCRIBERS);
-        $requestBody = $this->renderRequestBody('Subscribers/Subscribers', [
+        $requestBody = $this->renderRequestBody($template, [
             'apiKey' => $this->connection->getKey(),
             'Subscriber' => [
                 'Mode' => $this->getOption('Mode', self::MODE_AddAndUpdate, $options),
