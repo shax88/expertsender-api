@@ -25,12 +25,42 @@
             {% endif %}
         </Recipients>
         <Content>
+
+            {% if data.from is defined and data.from is not empty %}
+            <FromName>{{ data.from }}</FromName>
+            {% else %}
             <FromName>Picodi</FromName>
+            {% endif %}
+
+            {% if data.email is defined and data.email is not empty %}
+                <FromEmail>{{ data.email }}</FromEmail>
+            {% else %}
             <FromEmail>noreply@picodi.com</FromEmail>
+            {% endif %}
+
+            {% if data.name is defined and data.name is not empty %}
+                <ReplyToName>{{ data.name }}</ReplyToName>
+            {% else %}
             <ReplyToName>Picodi</ReplyToName>
+            {% endif %}
+
+            {% if data.reply is defined and data.reply is not empty %}
+            <ReplyToEmail>{{ data.reply }}</ReplyToEmail>
+            {% else %}
             <ReplyToEmail>contact@picodi.com</ReplyToEmail>
+            {% endif %}
+
             <Subject>{{ data.subject }}</Subject>
+
             <Html>{{ data.html }}</Html>
+
+            {% if data.tags is defined and data.tags is not empty  %}
+            <Tags>
+                {% for tag in data.tags %}
+                    <Tag>{{ tag }}</Tag>
+                {% endfor %}
+            </Tags>
+            {% endif %}
         </Content>
     </Data>
 </ApiRequest>
