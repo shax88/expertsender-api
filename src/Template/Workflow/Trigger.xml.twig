@@ -1,0 +1,23 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <Data>
+        <CustomEventId>{{ id }}</CustomEventId>
+        {% if emailID is defined and emailID %}
+            <SubscriberId>{{ emailID }}</SubscriberId>
+        {% endif %}
+        {% if email is defined and email %}
+            <SubscriberEmail>{{ email }}</SubscriberEmail>
+        {% endif %}
+        {% if data is defined and data is not empty %}
+            <DataFields>
+                {% for d in data %}
+                    <DataField>
+                        <Name>{{ d.name }}</Name>
+                        <Type>{{ d.type }}</Type>
+                        <Value>{{ d.value }}</Value>
+                    </DataField>
+                {% endfor %}
+            </DataFields>
+        {% endif %}
+    </Data>
+</ApiRequest>

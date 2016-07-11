@@ -85,6 +85,14 @@ class ExpertSenderApi
     }
 
     /**
+     * @return \PicodiLab\Expertsender\Method\Workflow
+     */
+    public function Workflow()
+    {
+        return $this->getApiSection('workflow');
+    }
+
+    /**
      * @return \PicodiLab\Expertsender\Method\Segments
      */
     public function Segments()
