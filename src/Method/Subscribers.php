@@ -98,6 +98,65 @@ class Subscribers extends AbstractMethod
         return (boolean)$response->getBody();
     }
 
+    /**
+     * Add multiple subscriber
+     * @param Subscriber|array $subscriber
+     * @param $listId
+     * @param array|null $options
+     * @return bool
+     */
+    public function addMulti($subscribers, $listId, array $options = null)
+    {
+        $options = $this->getOptions([
+            'Mode' => self::MODE_AddAndIgnore
+        ], $options);
+
+        return $this->multiRequest($subscribers, $listId, $options);
+    }
+
+    /**
+     * @param Subscriber|array $subscriber
+     * @param $listId
+     * @param array|null $options
+     * @return bool
+     */
+    protected function multiRequest($subscribers, $listId, array $options = null)
+    {
+        $formatted_subscribers = array();
+        if(!is_array($subscribers))
+        {
+            throw new \Exception('multi is for lot subscribers');
+        }else{
+            foreach($subscribers as $subscriber){
+                $subscriber = new Mapper\Subscriber($subscriber['Email'], $subscriber);
+                $formatted_subscribers[] = [
+                    'Mode' => $this->getOption('Mode', self::MODE_AddAndUpdate, $options),
+                    'Force' => $this->getOption('Force', 'false', $options),
+                    'ListId' => $listId,
+                    'Email' => $subscriber->getEmail(),
+                    'Firstname' => $subscriber->getFirstname(),
+                    'Lastname' => $subscriber->getLastname(),
+                    'TrackingCode' => $this->getOption('TrackingCode', '', $options),
+                    'Vendor' => $this->getOption('Vendor', '', $options),
+                    'Ip' => $subscriber->getIp(),
+                    'Properties' => $subscriber->getProperties()
+                ];
+            }
+        }
+
+        $requestUrl = $this->buildApiUrl(self::METHOD_SUBSCRIBERS);
+        $requestBody = $this->renderRequestBody('Subscribers/SubscribersMulti', [
+            'apiKey' => $this->connection->getKey(),
+            'rows' => $formatted_subscribers
+        ]);
+
+        $response = $this->connection->post($requestUrl, $requestBody);
+        $this->connection->isResponseValid($response);
+
+        return (boolean)$response->getBody();
+    }
+
+
     protected function getOption($option, $default, array $options = null)
     {
         if(!empty($options) && array_key_exists($option, $options))
