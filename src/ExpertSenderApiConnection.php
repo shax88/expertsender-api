@@ -146,7 +146,10 @@ class ExpertSenderApiConnection
      */
     public function getLastError()
     {
-        return $this->errorLog[count($this->errorLog) - 1];
+        if(is_array($this->errorLog) && isset($this->errorLog[count($this->errorLog) - 1]))
+            return $this->errorLog[count($this->errorLog) - 1];
+        else
+            return null;
     }
 
 //    /**

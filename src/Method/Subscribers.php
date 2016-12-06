@@ -151,6 +151,42 @@ class Subscribers extends AbstractMethod
         ]);
 
         $response = $this->connection->post($requestUrl, $requestBody);
+        /**
+         * Secure for black list emails
+         */
+        if ($response->getStatusCode() == 400) {
+            $subscribers = $this->removeBadEmails($response, $subscribers);
+
+            $formatted_subscribers = array();
+            if (!is_array($subscribers)) {
+                throw new \Exception('multi is for lot subscribers');
+            } else {
+                foreach ($subscribers as $subscriber) {
+                    $subscriber = new Mapper\Subscriber($subscriber['Email'], $subscriber);
+                    $formatted_subscribers[] = [
+                        'Mode' => $this->getOption('Mode', self::MODE_AddAndUpdate, $options),
+                        'Force' => $this->getOption('Force', 'false', $options),
+                        'ListId' => $listId,
+                        'Email' => $subscriber->getEmail(),
+                        'Firstname' => $subscriber->getFirstname(),
+                        'Lastname' => $subscriber->getLastname(),
+                        'TrackingCode' => $this->getOption('TrackingCode', '', $options),
+                        'Vendor' => $this->getOption('Vendor', '', $options),
+                        'Ip' => $subscriber->getIp(),
+                        'Properties' => $subscriber->getProperties()
+                    ];
+                }
+            }
+            $requestUrl = $this->buildApiUrl(self::METHOD_SUBSCRIBERS);
+
+            $requestBody = $this->renderRequestBody('Subscribers/SubscribersMulti', [
+                'apiKey' => $this->connection->getKey(),
+                'rows' => $formatted_subscribers
+            ]);
+
+            $response = $this->connection->post($requestUrl, $requestBody);
+        }
+
         $this->connection->isResponseValid($response);
 
         return (boolean)$response->getBody();
@@ -248,5 +284,23 @@ class Subscribers extends AbstractMethod
         }
 
         return $xml;
+    }
+
+    private function removeBadEmails($response, $subscribers){
+        $bad_emails = array();
+        $xml = simplexml_load_string($response->getBody());
+        foreach ($xml->ErrorMessage->Messages as $message) {
+            foreach ($message as $ms) {
+                $bad_emails[] = $ms->attributes()->for;
+            }
+        }
+
+        foreach($subscribers as $key => $subscriber){
+            if(in_array($subscriber['Email'], $bad_emails)){
+                unset($subscribers[$key]);
+            }
+        }
+
+        return $subscribers;
     }
 }
