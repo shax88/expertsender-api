@@ -18,7 +18,8 @@ class SummaryStatistics implements \Iterator
      */
     public function __construct(\SimpleXMLElement $data)
     {
-        foreach ($data as $summaryStatisticData) {
+        $summaryStatistics = $data->SummaryStatistics->SummaryStatistic;
+        foreach ($summaryStatistics as $summaryStatisticData) {
             $this->summaryStatistics[] = new SummaryStatistic($summaryStatisticData);
         }
     }
@@ -60,7 +61,7 @@ class SummaryStatistics implements \Iterator
      */
     public function valid()
     {
-        return isset($this->summaryStatistics[$this->current()]);
+        return isset($this->summaryStatistics[$this->key()]);
     }
 
     /**

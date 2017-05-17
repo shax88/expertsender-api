@@ -8,7 +8,7 @@ class SummaryStatistic
 {
 
     /**
-     * @var bool
+     * @var bool|null
      * If set to true, marks the summary row of statistic table (values are sums of all other rows).
      */
     private $isSummaryRow;
@@ -18,7 +18,7 @@ class SummaryStatistic
      */
     private $date;
     /**
-     * @var \DateTime|null
+     * @var \DatePeriod|null
      * Month represented as date period. Returned only if grouping by months was requested.
      */
     private $month;
@@ -175,55 +175,66 @@ class SummaryStatistic
     public function __construct(\SimpleXMLElement $summaryStatisticData)
     {
         $this->summaryStatisticData = $summaryStatisticData;
-        if (isset($this->summaryStatisticData->IsSummaryRow)) {
-            $this->isSummaryRow = $this->summaryStatisticData->IsSummaryRow;
-        } else {
-            $this->isSummaryRow = false;
-        }
-
-        $this->setField('Date');
-        $this->setField('Month');
-        $this->setField('MessageId');
+        $this->setField('IsSummaryRow', 'bool');
+        $this->setField('Date', 'date');
+        $this->setField('Month', 'dateRange');
+        $this->setField('MessageId', 'int');
         $this->setField('MessageSubject');
-        $this->setField('ListId');
+        $this->setField('ListId', 'int');
         $this->setField('ListName');
-        $this->setField('SegmentId');
+        $this->setField('SegmentId', 'int');
         $this->setField('SegmentName');
         $this->setField('Ip');
         $this->setField('Domain');
         $this->setField('DomainFamily');
         $this->setField('Vendor');
-        $this->setField('GoalId');
+        $this->setField('GoalId', 'int');
         $this->setField('GoalName');
         $this->setField('SendTimeOptimization');
         $this->setField('TimeTravelOptimization');
         $this->setField('ReadingEnvironment');
-        $this->setField('Sent');
-        $this->setField('Bounced');
-        $this->setField('Delivered');
-        $this->setField('Opens');
-        $this->setField('UniqueOpens');
-        $this->setField('Clicks');
-        $this->setField('UniqueClicks');
-        $this->setField('Clickers');
-        $this->setField('Complaints');
-        $this->setField('Unsubscribes');
-        $this->setField('Goals');
-        $this->setField('GoalsValue');
-
+        $this->setField('Sent', 'int');
+        $this->setField('Bounced', 'int');
+        $this->setField('Delivered', 'int');
+        $this->setField('Opens', 'int');
+        $this->setField('UniqueOpens', 'int');
+        $this->setField('Clicks', 'int');
+        $this->setField('UniqueClicks', 'int');
+        $this->setField('Clickers', 'int');
+        $this->setField('Complaints', 'int');
+        $this->setField('Unsubscribes', 'int');
+        $this->setField('Goals', 'int');
+        $this->setField('GoalsValue', 'int');
     }
 
     /**
      * @param string $xmlFieldName
-     * @param \SimpleXMLElement $data
+     * @param string $type: "str" "int" "bool" "date" "dateRange" (2010-01-01 : 2010-01-31 in API)
      */
-    private function setField($xmlFieldName)
+    private function setField($xmlFieldName, $type = 'str')
     {
         $propertyName = lcfirst($xmlFieldName);
-        if (isset($this->summaryStatisticData->$xmlFieldName)) {
-            $this->$propertyName = $this->summaryStatisticData->$xmlFieldName;
-        } else {
+        if (!isset($this->summaryStatisticData->$xmlFieldName)) {
             $this->$propertyName = null;
+            return;
+        }
+
+        if ($type === 'str') {
+            $this->$propertyName = (string)$this->summaryStatisticData->$xmlFieldName;
+        } elseif ($type === 'int') {
+            $this->$propertyName = (int)$this->summaryStatisticData->$xmlFieldName;
+        } elseif ($type === 'date') {
+            $this->$propertyName = new \DateTime($this->summaryStatisticData->$xmlFieldName);
+        } elseif ($type === 'bool') {
+            $this->$propertyName = (bool)$this->summaryStatisticData->$xmlFieldName;
+        } elseif ($type === 'dateRange') {
+            $dates = explode(' : ', $this->summaryStatisticData->$xmlFieldName);
+            $start = new \DateTime($dates[0]);
+            $end = new \DateTime($dates[1]);
+            $interval = new \DateInterval('P1D');
+            $this->$propertyName = new \DatePeriod($start, $interval, $end);
+        } else {
+            $this->$propertyName = $this->summaryStatisticData->$xmlFieldName;
         }
     }
 
@@ -244,7 +255,7 @@ class SummaryStatistic
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DatePeriod|null
      */
     public function getMonth()
     {
