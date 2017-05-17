@@ -82,7 +82,7 @@ class Statistics extends AbstractMethod
         $result = $this->connection->isResponseValid($response);
 
         if (!$result) {
-            throw new InvalidExpertsenderApiRequestException($this->connection->getLastError());
+            throw new InvalidExpertsenderApiRequestException();
         }
 
         $rXml = $this->connection->prepareResponse($response);
