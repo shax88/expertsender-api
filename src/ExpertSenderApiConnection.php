@@ -4,8 +4,7 @@ namespace PicodiLab\Expertsender;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
+use Psr\Http\Message\ResponseInterface;
 
 class ExpertSenderApiConnection
 {
@@ -53,7 +52,7 @@ class ExpertSenderApiConnection
      * GET request
      * @param $method
      * @param array $data
-     * @return array
+     * @return ResponseInterface
      */
     public function get($method, array $data)
     {
@@ -71,7 +70,7 @@ class ExpertSenderApiConnection
      * POST method
      * @param $method
      * @param $requestBody
-     * @return array
+     * @return ResponseInterface
      */
     public function post($method, $requestBody, $prepareResonse = false)
     {
@@ -86,8 +85,8 @@ class ExpertSenderApiConnection
     /**
      * DELETE method
      * @param $method
-     * @param $requestBody
-     * @return array
+     * @param $data
+     * @return ResponseInterface
      */
     public function delete($method, array $data)
     {
@@ -102,10 +101,10 @@ class ExpertSenderApiConnection
 
     /**
      * Convert response to object
-     * @param Response $response
+     * @param ResponseInterface $response
      * @return \SimpleXMLElement
      */
-    public function prepareResponse(Response $response)
+    public function prepareResponse(ResponseInterface $response)
     {
         $responseBody = (string)$response->getBody();
         if ($responseBody) {
@@ -114,7 +113,7 @@ class ExpertSenderApiConnection
         return null;
     }
 
-    public function isResponseValid($response)
+    public function isResponseValid(ResponseInterface $response)
     {
         $ok = preg_match('/^2..$/', (string)$response->getStatusCode());
 
@@ -126,7 +125,6 @@ class ExpertSenderApiConnection
                 'code' => $errorCode, 'message' => $errorMessage
             ];
             return false;
-//            throw new InvalidExpertsenderApiRequestException("[{$errorCode}] {$errorMessage}");
         }
 
         return true;
@@ -152,14 +150,4 @@ class ExpertSenderApiConnection
             return null;
     }
 
-//    /**
-//     * Return default xml object (wrapper) for post and put requests
-//     * @return \SimpleXMLElement
-//     */
-//    public function getDefaultRequestXml()
-//    {
-//        $xmlObject = new \SimpleXMLElement('<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema" />');
-//        $xmlObject->addChild('ApiKey', $this->key);
-//        return $xmlObject;
-//    }
 }
