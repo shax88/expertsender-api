@@ -41,7 +41,7 @@ class Statistics extends AbstractMethod
      * @param string|null $scope
      * @param string|null $scopeValue
      * @param string|null $grouping
-     * https://sites.google.com/a/expertsender.com/api-documentation/methods/statistics/get-summary-statisticso
+     * https://sites.google.com/a/expertsender.com/api-documentation/methods/statistics/get-summary-statistics
      * @throws InvalidExpertsenderApiRequestException
      * @throws NoDataException
      * @return SummaryStatistics
