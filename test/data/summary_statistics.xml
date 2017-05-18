@@ -1,0 +1,36 @@
+<ApiResponse xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Data>
+    <SummaryStatistics>
+      <SummaryStatistic>
+        <IsSummaryRow>true</IsSummaryRow>
+        <Sent>3656424</Sent>
+        <Bounced>478621</Bounced>
+        <Delivered>3177803</Delivered>
+        <Opens>356783</Opens>
+        <UniqueOpens>243556</UniqueOpens>
+        <Clicks>145664</Clicks>
+        <UniqueClicks>113442</UniqueClicks>
+        <Clickers>98761</Clickers>
+        <Complaints>3452</Complaints>
+        <Unsubscribes>34211</Unsubscribes>
+        <Goals>12344</Goals>
+        <GoalsValue>123440</GoalsValue>
+      </SummaryStatistic>
+      <SummaryStatistic>
+        <Domain>yahoo.com</Domain>
+        <Sent>1262372</Sent>
+        <Bounced>144511</Bounced>
+        <Delivered>1117861</Delivered>
+        <Opens>345112</Opens>
+        <UniqueOpens>245218</UniqueOpens>
+        <Clicks>83445</Clicks>
+        <UniqueClicks>63443</UniqueClicks>
+        <Clickers>34552</Clickers>
+        <Complaints>2231</Complaints>
+        <Unsubscribes>56775</Unsubscribes>
+        <Goals>3345</Goals>
+        <GoalsValue>33450</GoalsValue>
+      </SummaryStatistic>
+    </SummaryStatistics>
+  </Data>
+</ApiResponse>

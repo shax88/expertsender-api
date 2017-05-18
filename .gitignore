@@ -3,3 +3,4 @@ test.php
 vendor/
 sample/
 .idea/
+test/functional/credentials.php
