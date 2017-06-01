@@ -1,8 +1,12 @@
 {
-    "name": "picodi-lab/expertsender-api-client",
-    "description": "ExpertSender API client (by Picodi)",
+    "name": "sindivinch/expertsender-api-client",
+    "description": "ExpertSender API client",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Dmitry Uskov",
+            "email": "sindivinch@gmail.com"
+        },
         {
             "name": "Bartek Tyranowski",
             "email": "bartek.tyranowski@picodi.com"
@@ -14,13 +18,13 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "guzzlehttp/guzzle" : "6.1.*",
+        "guzzlehttp/guzzle" : "6.2.*",
         "twig/twig": "1.*"
     },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "PicodiLab\\Expertsender\\": "src/"
+            "Sindivinch\\Expertsender\\": "src/"
         }
     },
     "require-dev": {

@@ -3,4 +3,5 @@ test.php
 vendor/
 sample/
 .idea/
+nbproject/
 test/functional/credentials.php
