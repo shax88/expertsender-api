@@ -24,7 +24,7 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Sindivinch\\Expertsender\\": "src/"
+            "PicodiLab\\Expertsender\\": "src/"
         }
     },
     "require-dev": {
