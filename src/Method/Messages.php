@@ -4,6 +4,7 @@ namespace PicodiLab\Expertsender\Method;
 
 use GuzzleHttp\Psr7\Response;
 use PicodiLab\Expertsender\Mapper;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 class Messages extends AbstractMethod
 {
@@ -24,7 +25,12 @@ class Messages extends AbstractMethod
 
         $response = $this->connection->get(self::METHOD_MESSAGES, $_options);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
+        
         $rXml = $this->connection->prepareResponse($response);
 
         $messages = [];
@@ -42,7 +48,7 @@ class Messages extends AbstractMethod
             'apiKey' => $this->connection->getKey(),
         ]);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);        if (!$valid) {            $this->invalidRequestException();        }
         $rXml = $this->connection->prepareResponse($response);
 
         return new Mapper\Message(isset($rXml->Data) ? (array)$rXml->Data : []);
@@ -55,14 +61,14 @@ class Messages extends AbstractMethod
             'apiKey' => $this->connection->getKey(),
         ]));
 
-
         $response = $this->connection->post($requestUrl, $requestBody);
-        $ok = $this->connection->isResponseValid($response);
-        $response = $this->connection->prepareResponse($response);
-        if($ok)
-            return $response;
-        else
-            return $ok;
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
+        
+        return $response;
     }
 
     public function stopNewsletter($id){
@@ -70,17 +76,13 @@ class Messages extends AbstractMethod
         $response = $this->connection->delete(self::METHOD_MESSAGES . '/' . $id, [
             'apiKey' => $this->connection->getKey(),
         ]);
+        $valid = $this->connection->isResponseValid($response);
 
-
-        $this->connection->isResponseValid($response);
-        $rXml = $this->connection->prepareResponse($response);
-        $ok = $this->connection->isResponseValid($response);
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
         $response = $this->connection->prepareResponse($response);
-        if($ok)
-            return $response;
-        else
-            return $ok;
-
+        return $response;
     }
 
     public function startNewsletter($id){
@@ -92,13 +94,15 @@ class Messages extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
-        $response = $this->connection->prepareResponse($response);
-        if($ok)
-            return $response;
-        else
-            return $ok;
+        $valid = $this->connection->isResponseValid($response);
 
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
+        
+        $response = $this->connection->prepareResponse($response);
+        
+        return $response;
     }
 
     public function sendTransactinalMessage($email, $params, $message_id){
@@ -112,11 +116,12 @@ class Messages extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
         $response = $this->connection->prepareResponse($response);
-        if($ok)
-            return $response;
-        else
-            return $ok;
+        return $response;
     }
 }

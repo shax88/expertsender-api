@@ -20,7 +20,11 @@ class Fields extends AbstractMethod
     {
         $requestUrl = $this->buildApiUrl(self::METHOD_Fields);
         $response = $this->connection->get($requestUrl, []);
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return $this->formatResponse($response);
     }

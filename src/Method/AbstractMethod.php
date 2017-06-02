@@ -192,5 +192,15 @@ abstract class AbstractMethod
 
         return $aObjects;
     }
+    
+    public function invalidRequestException()
+    {
+        $error = $this->connection->getLastError();
+        if ($error) {
+            throw new InvalidExpertsenderApiRequestException($error['message'], $error['code']);
+        } else {
+            throw new InvalidExpertsenderApiRequestException('Unknown error');
+        }
+    }
 
 }

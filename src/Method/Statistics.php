@@ -29,7 +29,11 @@ class Statistics extends AbstractMethod
             'apiKey' => $this->connection->getKey(),
         ]);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
         $rXml = $this->connection->prepareResponse($response);
 
         return new Mapper\MessageStatistics(isset($rXml->Data) ? (array)$rXml->Data : []);
@@ -79,10 +83,11 @@ class Statistics extends AbstractMethod
         }
 
         $response = $this->connection->get(self::METHOD_SummaryStatistics, $data);
-        $result = $this->connection->isResponseValid($response);
+        
+        $valid = $this->connection->isResponseValid($response);
 
-        if (!$result) {
-            throw new InvalidExpertsenderApiRequestException();
+        if (!$valid) {
+            $this->invalidRequestException();
         }
 
         $rXml = $this->connection->prepareResponse($response);

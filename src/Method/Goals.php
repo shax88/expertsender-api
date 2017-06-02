@@ -16,7 +16,6 @@ class Goals extends AbstractMethod
     /**
      * fulfils the given goal through Api request
      * @param Mapper\Goal $goal
-     * @return bool
      * @throws MethodInMapperNotFoundException
      * @throws InvalidExpertsenderApiRequestException
      */
@@ -31,9 +30,11 @@ class Goals extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
 
-        return (boolean)$ok;
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
     }
 
 }

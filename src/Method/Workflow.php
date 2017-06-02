@@ -21,11 +21,12 @@ class Workflow extends AbstractMethod
         ]));
 
         $response = $this->connection->post($requestUrl, $requestBody);
-        $ok = $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
         $response = $this->connection->prepareResponse($response);
-        if($ok)
-            return $response;
-        else
-            return $ok;
+        return $response;
     }
 }

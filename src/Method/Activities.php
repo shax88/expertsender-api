@@ -44,7 +44,11 @@ class Activities extends AbstractMethod
         $params = array_merge($defaultParams, $params);
         $response = $this->connection->get($requestUrl, $params);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return $this->formatResponse($response);
     }

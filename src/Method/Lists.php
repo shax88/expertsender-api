@@ -45,7 +45,11 @@ class Lists extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return $this->formatResponse($response);
     }
@@ -73,7 +77,11 @@ class Lists extends AbstractMethod
         $params = array_merge($defaultParams, $params);
         $response = $this->connection->get($requestUrl, $params);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
         return $this->formatResponse($response);
     }
 
