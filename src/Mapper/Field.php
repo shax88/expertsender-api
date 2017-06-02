@@ -122,36 +122,40 @@ class Field extends MapperAbstract
     }
 
     /**
-     * @param string $type
+     * @param string $value
      * @return Field
      */
     public function setType($value)
     {
-        if ($value == 'Boolean') {
-            $this->type = self::TYPE_BOOLEAN;
+        switch ($value) {
+            case 'Boolean':
+                $this->type = self::TYPE_BOOLEAN;
+                break;
+            case 'Text':
+                $this->type = self::TYPE_STRING;
+                break;
+            case 'Number':
+                $this->type = self::TYPE_DOUBLE;
+                break;
+            case 'Money':
+                $this->type = self::TYPE_DOUBLE;
+                break;
+            case 'Url':
+                $this->type = self::TYPE_STRING;
+                break;
+            case 'Date':
+                $this->type = self::TYPE_DATE;
+                break;
+            case 'Datetime':
+                $this->type = self::TYPE_DATE_TIME;
+                break;
+            case 'SingleSelect':
+                $this->type = self::TYPE_STRING;
+                break;
+            default :
+                $this->type = $value;
+                break;
         }
-        if ($value == 'Text') {
-            $this->type = self::TYPE_STRING;
-        }
-        if ($value == 'Number') {
-            $this->type = self::TYPE_DOUBLE;
-        }
-        if ($value == 'Money') {
-            $this->type = self::TYPE_DOUBLE;
-        }
-        if ($value == 'Url') {
-            $this->type = self::TYPE_STRING;
-        }
-        if ($value == 'Date') {
-            $this->type = self::TYPE_DATE;
-        }
-        if ($value == 'Datetime') {
-            $this->type = self::TYPE_DATE_TIME;
-        }
-        if ($value == 'SingleSelect') {
-            $this->type = self::TYPE_STRING;
-        }
-        $this->type = $value;
 
         return $this;
     }
