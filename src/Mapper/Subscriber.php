@@ -93,10 +93,12 @@ class Subscriber
     public function setProperties($values)
     {
         foreach ($values as $property) {
-            if(!empty($property->Name)) {
+            if ($property instanceof Property) {
+                $this->properties[] = $property;
+            } elseif (!empty($property->Name)) {
                 $name = trim($property->Name);
                 $this->properties[$name] = new Property((array)$property);
-            }else{
+            } else {
                 $this->properties[] = new Property((array)$property);
             }
         }
