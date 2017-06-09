@@ -4,6 +4,7 @@ namespace PicodiLab\Expertsender\Method;
 
 use GuzzleHttp\Psr7\Response;
 use PicodiLab\Expertsender\ExpertSenderApiConnection;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 abstract class AbstractMethod
 {

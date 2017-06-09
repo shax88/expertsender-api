@@ -196,5 +196,21 @@ class Property extends Field
         return $this;
     }
 
-
+    /**
+     * Returns value for save
+     * @return mixed
+     */
+    public function getSaveValue()
+    {
+        switch ($this->type) {
+            case self::TYPE_STRING:
+                return $this->stringValue;
+            case self::TYPE_DATE_TIME:
+                return $this->dateTimeValue;
+            case self::TYPE_DATE_TIME:
+                return $this->dateTimeValue;
+            default :
+                return $this->value;
+        }
+    }
 }

@@ -40,7 +40,12 @@ class Activities extends AbstractMethod
             'columns' => 'Extended',
             'returnTitle' => 'true'
         ];
-
+        if (isset($params['returnTitle']) && is_bool($params['returnTitle'])) {
+            $params['returnTitle'] = ($params['returnTitle'] ? 'true' : 'false');
+        }
+        if (isset($params['returnGuid']) && is_bool($params['returnGuid'])) {
+            $params['returnGuid'] = ($params['returnGuid'] ? 'true' : 'false');
+        }
         $params = array_merge($defaultParams, $params);
         $response = $this->connection->get($requestUrl, $params);
 

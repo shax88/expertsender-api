@@ -105,13 +105,16 @@ class Messages extends AbstractMethod
         return $response;
     }
 
-    public function sendTransactinalMessage($email, $params, $message_id){
+    public function sendTransactinalMessage($email, $params, $message_id, $returnGuid = true){
         $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE);
         $requestUrl .= '/'.$message_id;
+        
+        $returnGuid = ($returnGuid ? 'true' : 'false');
         $requestBody = $this->renderRequestBody('Transactional/Message', [
-            'apiKey' => $this->connection->getKey(),
-            'email' => $email,
-            'params' => $params
+            'apiKey'     => $this->connection->getKey(),
+            'email'      => $email,
+            'ReturnGuid' => $returnGuid,
+            'params'     => $params
         ]);
 
         $response = $this->connection->post($requestUrl, $requestBody);
@@ -121,6 +124,7 @@ class Messages extends AbstractMethod
         if (!$valid) {
             $this->invalidRequestException();
         }
+        
         $response = $this->connection->prepareResponse($response);
         return $response;
     }
