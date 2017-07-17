@@ -111,12 +111,13 @@ class Messages extends AbstractMethod
      * @param string $email
      * @param array $params
      * @param int $messageId
-     * @param bool $returnGuid
      * @param PicodiLab\Expertsender\Method\Messages\Attachment[] $attachments
+     * @param bool $returnGuid
      * 
      * @return type
      */
-    public function sendTransactinalMessage($email, $params, $messageId, $attachments, $returnGuid = true){
+    public function sendTransactinalMessage($email, $params, $messageId, $attachments, $returnGuid = true)
+    {
         $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE);
         $requestUrl .= '/'.$messageId;
         
