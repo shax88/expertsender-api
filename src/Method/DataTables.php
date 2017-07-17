@@ -40,7 +40,11 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return (boolean)$response->getBody();
     }
@@ -61,7 +65,10 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);        
+        if (!$valid) {            
+            $this->invalidRequestException();        
+        }
 
         return (boolean)$response->getBody();
     }
@@ -87,7 +94,11 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return (boolean)$response->getBody();
     }
@@ -119,7 +130,11 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return $this->formatResponse($response);
     }
@@ -144,7 +159,11 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         $rXml = $this->connection->prepareResponse($response);
         $cnt = (int)$rXml->xpath('//Count')[0];
@@ -168,16 +187,17 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
 
-        return (boolean)$ok;
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
     }
 
     /**
      * adds multiple rows to data table
      * @param $tableName
      * @param array $rows
-     * @return bool
      * @throws InvalidExpertsenderApiRequestException
      * @throws MethodInMapperNotFoundException
      */
@@ -191,9 +211,11 @@ class DataTables extends AbstractMethod
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
-        $ok = $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
 
-        return (boolean)$ok;
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
     }
 
     

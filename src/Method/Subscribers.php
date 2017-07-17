@@ -4,6 +4,7 @@ namespace PicodiLab\Expertsender\Method;
 
 use GuzzleHttp\Psr7\Response;
 use PicodiLab\Expertsender\Mapper;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 class Subscribers extends AbstractMethod
 {
@@ -90,12 +91,16 @@ class Subscribers extends AbstractMethod
                 'Properties' => $subscriber->getProperties()
             ]
         ]);
-
+        
         $response = $this->connection->post($requestUrl, $requestBody);
+        
+        $valid = $this->connection->isResponseValid($response);
 
-        $this->connection->isResponseValid($response);
-
-        return (boolean)$response->getBody();
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
+        
+        return true;
     }
 
     /**
@@ -187,7 +192,11 @@ class Subscribers extends AbstractMethod
             $response = $this->connection->post($requestUrl, $requestBody);
         }
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return (boolean)$response->getBody();
     }
@@ -224,11 +233,14 @@ class Subscribers extends AbstractMethod
             'email' => $email,
             'option' => $option,
         ]);
+        
+        $valid = $this->connection->isResponseValid($response);
 
-        $this->connection->isResponseValid($response);
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         $rXml = $this->connection->prepareResponse($response);
-
         return new Mapper\Subscriber($email, isset($rXml->Data) ? (array)$rXml->Data : []);
     }
 

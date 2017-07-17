@@ -4,6 +4,7 @@ namespace PicodiLab\Expertsender\Method;
 
 use GuzzleHttp\Psr7\Response;
 use PicodiLab\Expertsender\ExpertSenderApiConnection;
+use PicodiLab\Expertsender\Exception\InvalidExpertsenderApiRequestException;
 
 abstract class AbstractMethod
 {
@@ -191,6 +192,20 @@ abstract class AbstractMethod
         }
 
         return $aObjects;
+    }
+    
+    /**
+     * Invalid request exceptions throws. If connection have no message, it will raise 'Unknown error' ecxeption
+     * @throws InvalidExpertsenderApiRequestException
+     */
+    public function invalidRequestException()
+    {
+        $error = $this->connection->getLastError();
+        if ($error) {
+            throw new InvalidExpertsenderApiRequestException($error['message'], $error['code']);
+        } else {
+            throw new InvalidExpertsenderApiRequestException('Unknown error');
+        }
     }
 
 }

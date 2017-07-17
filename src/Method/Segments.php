@@ -21,7 +21,11 @@ class Segments extends AbstractMethod
 
         $response = $this->connection->get($requestUrl, []);
 
-        $this->connection->isResponseValid($response);
+        $valid = $this->connection->isResponseValid($response);
+
+        if (!$valid) {
+            $this->invalidRequestException();
+        }
 
         return $this->formatResponse($response);
     }
