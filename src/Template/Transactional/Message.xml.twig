@@ -1,16 +1,27 @@
 <ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-<ApiKey>{{ apiKey }}</ApiKey>
-<Data>
-    <Receiver>
-        <Email>{{ email }}</Email>
-    </Receiver>
-    <Snippets>
-        {% for k,v in params %}
-        <Snippet>
-            <Name>{{ k }}</Name>
-            <Value><![CDATA[ {{ v }} ]]></Value>
-        </Snippet>
-        {% endfor %}
-    </Snippets>
-</Data>
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <Data>
+        <Receiver>
+            <Email>{{ email }}</Email>
+        </Receiver>
+        <Snippets>
+            {% for k,v in params %}
+                <Snippet>
+                    <Name>{{ k }}</Name>
+                    <Value><![CDATA[ {{ v }} ]]></Value>
+                </Snippet>
+            {% endfor %}
+        </Snippets>
+        {% if attachments %}
+            <Attachments>
+                {% for k,v in attachments %}
+                    <Attachment>
+                        <FileName>{{ v.fileName }}</FileName>
+                        <MimeType>{{ v.mimeType }}</MimeType>
+                        <Content>{{ v.content }}</Content>
+                    </Attachment>
+                {% endfor %}
+            </Attachments>
+        {% endif %}
+    </Data>
 </ApiRequest>

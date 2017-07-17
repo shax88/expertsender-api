@@ -101,13 +101,25 @@ class Messages extends AbstractMethod
 
     }
 
-    public function sendTransactinalMessage($email, $params, $message_id){
+    /**
+     * Send transactional message
+     * 
+     * @param string $email
+     * @param array $params
+     * @param int $messageId
+     * @param PicodiLab\Expertsender\Method\Messages\Attachment[] $attachments
+     * 
+     * @return mixed
+     */
+    public function sendTransactinalMessage($email, $params, $messageId, $attachments){
         $requestUrl = $this->buildApiUrl(self::METHOD_TRANSACTIONAL_MESSAGE);
-        $requestUrl .= '/'.$message_id;
+        $requestUrl .= '/'.$messageId;
+        
         $requestBody = $this->renderRequestBody('Transactional/Message', [
-            'apiKey' => $this->connection->getKey(),
-            'email' => $email,
-            'params' => $params
+            'apiKey'      => $this->connection->getKey(),
+            'email'       => $email,
+            'params'      => $params,
+            'attachments' => $attachments
         ]);
 
         $response = $this->connection->post($requestUrl, $requestBody);
