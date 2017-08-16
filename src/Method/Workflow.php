@@ -26,7 +26,6 @@ class Workflow extends AbstractMethod
         if (!$valid) {
             $this->invalidRequestException();
         }
-        $response = $this->connection->prepareResponse($response);
-        return $response;
+        return true;
     }
 }

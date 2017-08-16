@@ -14,7 +14,7 @@
                     <DataField>
                         <Name>{{ d.name }}</Name>
                         <Type>{{ d.type }}</Type>
-                        <Value>{{ d.value }}</Value>
+                        <Value><![CDATA[{{ d.value }}]]></Value>
                     </DataField>
                 {% endfor %}
             </DataFields>
