@@ -4,9 +4,9 @@
         <Mode>{{ Subscriber.Mode }}</Mode>
         <Force>{{ Subscriber.Force }}</Force>
         <ListId>{{ Subscriber.ListId }}</ListId>
-        {% if Subscriber.Email %}<Email>{{ Subscriber.Email }}</Email>{% endif %}
-        {% if Subscriber.Firstname %}<Firstname>{{ Subscriber.Firstname }}</Firstname>{% endif %}
-        {% if Subscriber.Lastname %}<Lastname>{{ Subscriber.Lastname }}</Lastname>{% endif %}
+        % if Subscriber.Email %}<Email>{{ Subscriber.Email }}</Email>{% endif %}
+        {% if Subscriber.Firstname %}<Firstname><![CDATA[{{ Subscriber.Firstname }}]]></Firstname>{% endif %}
+        {% if Subscriber.Lastname %}<Lastname><![CDATA[{{ Subscriber.Lastname }}]]></Lastname>{% endif %}
         {% if Subscriber.TrackingCode %}<TrackingCode>{{ Subscriber.TrackingCode }}</TrackingCode>{% endif %}
         {% if Subscriber.Vendor %}<Vendor>{{ Subscriber.Vendor }}</Vendor>{% endif %}
         {% if Subscriber.Ip %}<Ip>{{ Subscriber.Ip }}</Ip>{% endif %}
@@ -15,7 +15,7 @@
             {% for Property in Subscriber.Properties %}
             <Property>
                 <Id>{{ Property.Id }}</Id>
-                <Value xsi:type="xs:{{ Property.type }}">{{ Property.getSaveValue() }}</Value> {# type to define #}
+                <Value xsi:type="xs:{{ Property.type }}"><![CDATA[{{ Property.getSaveValue() }}]]></Value> {# type to define #}
             </Property>
             {% endfor %}
         </Properties>
