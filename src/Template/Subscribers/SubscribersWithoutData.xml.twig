@@ -4,7 +4,7 @@
         <Mode>{{ Subscriber.Mode }}</Mode>
         <Force>{{ Subscriber.Force }}</Force>
         <ListId>{{ Subscriber.ListId }}</ListId>
-        % if Subscriber.Email %}<Email>{{ Subscriber.Email }}</Email>{% endif %}
+        {% if Subscriber.Email %}<Email>{{ Subscriber.Email }}</Email>{% endif %}
         {% if Subscriber.Firstname %}<Firstname><![CDATA[{{ Subscriber.Firstname }}]]></Firstname>{% endif %}
         {% if Subscriber.Lastname %}<Lastname><![CDATA[{{ Subscriber.Lastname }}]]></Lastname>{% endif %}
         {% if Subscriber.TrackingCode %}<TrackingCode>{{ Subscriber.TrackingCode }}</TrackingCode>{% endif %}
