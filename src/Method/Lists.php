@@ -14,7 +14,6 @@ class Lists extends AbstractMethod
     const METHOD_Lists = 'Lists';
 
     protected $mapperName = 'SubscribersList';
-    protected $outputFormat = self::FORMAT_OBJECT;
 
     /**
      * creates new subscriber list
@@ -90,7 +89,7 @@ class Lists extends AbstractMethod
         if (!$valid) {
             $this->invalidRequestException();
         }
-
+        $this->outputFormat = self::FORMAT_OBJECT;
         return $this->formatResponse($response);
     }
 
