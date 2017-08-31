@@ -10,16 +10,18 @@ class Lists extends AbstractMethod
 {
 
     use XmlBased;
-    
+
     const METHOD_Lists = 'Lists';
 
     protected $mapperName = 'SubscribersList';
-
+    protected $outputFormat = self::FORMAT_OBJECT;
 
     /**
      * creates new subscriber list
+     *
      * @param $name
      * @param array $params
+     *
      * @return bool
      * @throws InvalidExpertsenderApiRequestException
      * @throws MethodInMapperNotFoundException
@@ -28,20 +30,26 @@ class Lists extends AbstractMethod
     {
 
         $defaultParams = [
-            'Name' => $name,
+            'Name'         => $name,
             'FriendlyName' => null,
-            'Description' => null,
-            'Language' => null,
-            'OptInMode' => null,
+            'Description'  => null,
+            'Language'     => null,
+            'OptInMode'    => null,
             // ... not necessary now.
         ];
 
         $params = array_merge($defaultParams, $params);
 
         $requestUrl = $this->buildApiUrl(self::METHOD_Lists);
-        $requestBody = $this->renderRequestBody('Lists/Lists', array_merge(['settings' => $params], [
-            'apiKey' => $this->connection->getKey(),
-        ]));
+        $requestBody = $this->renderRequestBody(
+            'Lists/Lists',
+            array_merge(
+                ['settings' => $params],
+                [
+                    'apiKey' => $this->connection->getKey(),
+                ]
+            )
+        );
 
         $response = $this->connection->post($requestUrl, $requestBody);
 
@@ -51,15 +59,15 @@ class Lists extends AbstractMethod
             $this->invalidRequestException();
         }
 
-        return $this->formatResponse($response);
+        return true;
     }
 
-
     /**
+     * Gets subscribers lists
      *
-     * gets subscribers lists
      * @param array $params
      * @param bool $raw
+     *
      * @return array
      * @throws MethodInMapperNotFoundException
      * @throws InvalidExpertsenderApiRequestException
@@ -69,9 +77,9 @@ class Lists extends AbstractMethod
         $requestUrl = $this->buildApiUrl(self::METHOD_Lists);
 
         $defaultParams = [
-            'apiKey' => $this->connection->getKey(),
+            'apiKey'      => $this->connection->getKey(),
             'http_errors' => false,
-            'query' => [],
+            'query'       => [],
         ];
 
         $params = array_merge($defaultParams, $params);
@@ -82,6 +90,7 @@ class Lists extends AbstractMethod
         if (!$valid) {
             $this->invalidRequestException();
         }
+
         return $this->formatResponse($response);
     }
 

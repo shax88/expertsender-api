@@ -10,6 +10,9 @@ class SubscribersList extends MapperAbstract
     protected $language;
     protected $optInMode;
 
+    public function __construct($data)
+    {
+    }
 
     public function setLanguage($language){
         $this->language = $language;
