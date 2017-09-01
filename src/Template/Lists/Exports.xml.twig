@@ -1,0 +1,14 @@
+<ApiRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <ApiKey>{{ apiKey }}</ApiKey>
+    <Data>
+        <Type>{{ Type }}</Type>
+        <ListId>{{ ListId }}</ListId>
+        {% if Fields %}
+        <Fields>
+            {% for Field in Fields %}
+                <Field>{{ Field }}</Field>
+            {% endfor %}
+        </Fields>
+        {% endif %}
+    </Data>
+</ApiRequest>

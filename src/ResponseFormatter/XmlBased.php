@@ -2,7 +2,6 @@
 
 namespace PicodiLab\Expertsender\ResponseFormatter;
 
-
 /**
  * Used for switching formats of the ExpertSender API responce for those requests that comes in XML by default
  * Trait XmlBased
@@ -11,7 +10,8 @@ namespace PicodiLab\Expertsender\ResponseFormatter;
 trait XmlBased
 {
     /**
-     * converts fields array to CSV
+     * Converts fields array to CSV
+     *
      * @param $input
      */
     public function asCSV($input)
@@ -31,8 +31,10 @@ trait XmlBased
     }
 
     /**
-     * converting XML response into Array
+     * Converting XML response into Array
+     *
      * @param string $input
+     *
      * @return mixed
      */
     public function asArray($input)

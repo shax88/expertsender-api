@@ -109,6 +109,14 @@ class ExpertSenderApi
     }
 
     /**
+     * @return \PicodiLab\Expertsender\Method\Exports
+     */
+    public function Exports()
+    {
+        return $this->getApiSection('exports');
+    }
+
+    /**
      * @return ExpertSenderApiConnection
      */
     public function getConnection(){

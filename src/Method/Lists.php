@@ -11,7 +11,8 @@ class Lists extends AbstractMethod
 
     use XmlBased;
 
-    const METHOD_Lists = 'Lists';
+    const METHOD_LISTS         = 'Lists';
+    const METHOD_LISTS_EXPORTS = 'Exports';
 
     protected $mapperName = 'SubscribersList';
 
@@ -39,7 +40,7 @@ class Lists extends AbstractMethod
 
         $params = array_merge($defaultParams, $params);
 
-        $requestUrl = $this->buildApiUrl(self::METHOD_Lists);
+        $requestUrl = $this->buildApiUrl(self::METHOD_LISTS);
         $requestBody = $this->renderRequestBody(
             'Lists/Lists',
             array_merge(
@@ -73,7 +74,7 @@ class Lists extends AbstractMethod
      */
     public function get($params = [])
     {
-        $requestUrl = $this->buildApiUrl(self::METHOD_Lists);
+        $requestUrl = $this->buildApiUrl(self::METHOD_LISTS);
 
         $defaultParams = [
             'apiKey'      => $this->connection->getKey(),
@@ -89,7 +90,9 @@ class Lists extends AbstractMethod
         if (!$valid) {
             $this->invalidRequestException();
         }
+
         $this->outputFormat = self::FORMAT_OBJECT;
+
         return $this->formatResponse($response);
     }
 
