@@ -22,7 +22,7 @@ class Lists extends AbstractMethod
      * @param $name
      * @param array $params
      *
-     * @return bool
+     * @return int list id
      * @throws InvalidExpertsenderApiRequestException
      * @throws MethodInMapperNotFoundException
      */
@@ -59,7 +59,9 @@ class Lists extends AbstractMethod
             $this->invalidRequestException();
         }
 
-        return true;
+        $response = $this->connection->prepareResponse($response);
+
+        return (int)$response->Data;
     }
 
     /**
