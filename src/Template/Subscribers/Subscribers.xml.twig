@@ -15,7 +15,11 @@
             {% for Property in Subscriber.Properties %}
             <Property>
                 <Id>{{ Property.Id }}</Id>
-                <Value xsi:type="xs:{{ Property.type }}"><![CDATA[{{ Property.getSaveValue() }}]]></Value> {# type to define #}
+                {% if Property.value is null %}
+                    <Value xsi:type="xs:{{ Property.type }}" xsi:nil="true" />
+                {% else %}
+                    <Value xsi:type="xs:{{ Property.type }}"><![CDATA[{{ Property.value }}]]></Value>
+                {% endif %}
             </Property>
             {% endfor %}
         </Properties>
