@@ -106,7 +106,7 @@ class ExpertSenderApiConnection
      */
     public function prepareResponse(ResponseInterface $response)
     {
-        $responseBody = (string)$response->getBody();
+        $responseBody = preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', (string)$response->getBody());
         if ($responseBody) {
             return simplexml_load_string($responseBody);
         }
