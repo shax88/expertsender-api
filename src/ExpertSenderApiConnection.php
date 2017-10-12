@@ -378,11 +378,18 @@ class ExpertSenderApiConnection
 
         if (!$ok) {
             $rXml = $this->prepareResponse($response);
-            $errorCode = (string)$rXml->xpath('//ErrorMessage/Code')[0];
-            $errorMessage = (string)$rXml->xpath('//ErrorMessage/Message')[0];
-            $this->errorLog[] = [
-                'code' => $errorCode, 'message' => $errorMessage
-            ];
+            if(
+                isset($rXml->xpath('//ErrorMessage/Code')[0])
+                && isset($rXml->xpath('//ErrorMessage/Message')[0])
+            ) {
+                $errorCode = (string)$rXml->xpath('//ErrorMessage/Code')[0];
+                $errorMessage = (string)$rXml->xpath('//ErrorMessage/Message')[0];
+                $this->errorLog[] = [
+                    'code' => $errorCode, 'message' => $errorMessage
+                ];
+            } else {
+                echo (string)$response->getBody();
+            }
             return false;
         }
 
