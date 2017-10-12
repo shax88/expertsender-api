@@ -97,7 +97,7 @@ class Subscribers extends AbstractMethod
         $valid = $this->connection->isResponseValid($response);
 
         if (!$valid) {
-            $this->invalidRequestException($requestBody, (striing)$response);
+            $this->invalidRequestException($requestBody);
         }
         
         return true;
