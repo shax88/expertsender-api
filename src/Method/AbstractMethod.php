@@ -208,15 +208,22 @@ abstract class AbstractMethod
 
     /**
      * Invalid request exceptions throws. If connection have no message, it will raise 'Unknown error' ecxeption
+     *
+     * @param null|string $requestBody
+     * @param null|string $response
+     *
      * @throws InvalidExpertsenderApiRequestException
      */
     public function invalidRequestException($requestBody = null)
     {
         $error = $this->connection->getLastError();
-        if ($error) {
+        if (!empty($error['message']) && !empty($error['code'])) {
             $ex = new InvalidExpertsenderApiRequestException($error['message'], $error['code']);
         } else {
             $ex = new InvalidExpertsenderApiRequestException('Unknown error');
+        }
+        if (!empty($error['body'])) {
+            $ex->setResponse($error['body']);
         }
         $ex->setRequestBody($requestBody);
         throw $ex;

@@ -7,6 +7,7 @@ namespace PicodiLab\Expertsender\Exception;
 class InvalidExpertsenderApiRequestException extends \Exception
 {
     protected $request = null;
+    protected $response = null;
 
     public function setRequestBody($request)
     {
@@ -17,4 +18,22 @@ class InvalidExpertsenderApiRequestException extends \Exception
     {
         return $this->request;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param string|null $response
+     */
+    public function setResponse($response)
+    {
+        $this->response = $response;
+    }
+
+
 }
